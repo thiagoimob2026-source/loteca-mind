@@ -59,6 +59,11 @@ export default function MatchCard({ fusion, suggestion, index, isVip, onClick }:
             JOGO {fusion.match_id}
           </span>
           {fusion.zebra_alert && <span className="tag tag-zebra">🦓 ZEBRA</span>}
+          {fusion.is_verified && (
+            <span className="tag" style={{ background: "rgba(34, 197, 94, 0.1)", color: "#22c55e", fontSize: "0.65rem", fontWeight: 700 }}>
+              ✅ DADOS REAIS
+            </span>
+          )}
           {isVip && isPremium && <span className="tag tag-high" style={{ background: "rgba(16, 185, 129, 0.1)", color: "var(--accent-emerald)" }}>💎 ACESSO VIP</span>}
         </div>
         <div className="flex items-center gap-2">

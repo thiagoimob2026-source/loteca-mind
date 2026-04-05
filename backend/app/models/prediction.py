@@ -10,6 +10,7 @@ class AlphaOutput(BaseModel):
     confidence: float = Field(..., ge=0, le=1, description="Confiança na predição")
     key_factors: list[str] = Field(default_factory=list, description="Fatores técnicos determinantes")
     xg_differential: float = Field(0.0, description="Diferencial de xG entre times")
+    clutch_factor: float = Field(0.5, ge=0, le=1, description="Fator Decisão tático (baseado em gols tardios)")
 
 
 class PsiOutput(BaseModel):
@@ -54,6 +55,7 @@ class FusionResult(BaseModel):
 
     # Clutch Factor
     clutch_factor: float = Field(0.5, ge=0, le=1, description="Fator decisivo do jogo")
+    is_verified: bool = Field(False, description="Dados confirmados via API-Sports")
 
 
 class TicketSuggestion(BaseModel):

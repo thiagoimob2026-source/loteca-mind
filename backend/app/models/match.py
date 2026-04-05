@@ -12,14 +12,15 @@ class TeamMomentum(str, Enum):
 
 class TeamData(BaseModel):
     """Core team statistics for a match."""
-    name: str
-    abbreviation: str
-    xg_accumulated: float = Field(..., description="Expected Goals acumulado últimos 5 jogos")
-    vertical_passes_avg: float = Field(..., description="Média de passes verticais por jogo")
-    box_entries_avg: float = Field(..., description="Entradas na área adversária por jogo")
-    counter_attack_efficiency: float = Field(..., ge=0, le=1, description="Eficácia de contra-ataques (0-1)")
-    clean_sheet_rate: float = Field(..., ge=0, le=1, description="Taxa de jogos sem sofrer gols")
-    form_last_5: list[str] = Field(..., description="Resultados últimos 5 jogos (W/D/L)")
+    name: str = "Unknown"
+    abbreviation: str = "UNK"
+    xg_accumulated: float = Field(0.0, description="Expected Goals acumulado últimos jogos")
+    vertical_passes_avg: float = Field(0.0, description="Média de passes verticais por jogo")
+    box_entries_avg: float = Field(0.0, description="Entradas na área adversária por jogo")
+    counter_attack_efficiency: float = Field(0.5, ge=0, le=1, description="Eficácia de contra-ataques (0-1)")
+    clean_sheet_rate: float = Field(0.0, ge=0, le=1, description="Taxa de jogos sem sofrer gols")
+    form_last_5: list[str] = Field(default_factory=list, description="Resultados últimos 7 jogos (W/D/L)")
+    clutch_factor: float = Field(0.5, ge=0, le=1, description="Fator Decisão (Gols no final)")
 
 
 class ContextData(BaseModel):
@@ -46,3 +47,4 @@ class MatchData(BaseModel):
     venue: str = ""
     kickoff_time: Optional[str] = None
     head_to_head: dict = Field(default_factory=lambda: {"home_wins": 0, "draws": 0, "away_wins": 0})
+    is_verified: bool = Field(False, description="Dados confirmados via API-Sports")

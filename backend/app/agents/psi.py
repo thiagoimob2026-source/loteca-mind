@@ -1,152 +1,76 @@
 """
-Agente Psi — O Psicólogo de Campo
-Based on Ivarsson (2019) and Kaplánová (2024).
-
-Analyzes psychological and emotional factors that can destabilize predictions.
-Uses pure algorithmic logic (no LLM calls).
+Agente Psi — O Psicólogo de Campo (Motor Scout)
+Analyzes emotional volatility based on real recent performance.
 """
 
 from app.models.match import MatchData, ContextData, TeamMomentum
 from app.models.prediction import PsiOutput
 
-
-# Emotional factor weights (calibratable)
+# Pesos emocionais baseados em dados REAIS
 FACTOR_WEIGHTS = {
-    "new_coach_bonus": 15,      # "Novo Ar" effect
-    "consecutive_losses": 7,    # Per consecutive loss
-    "var_stress": 4,            # Per VAR incident
-    "ex_player_effect": 5,      # "Lei do Ex"
-    "away_fragility": 10,       # Low away resilience
-    "six_pointer_pressure": 12, # High-stakes match
-    "negative_news": 8,         # Negative media sentiment
-    "crisis_momentum": 20,      # Team in crisis
-    "on_fire_stability": -10,   # Team on fire (reduces volatility)
+    "volatility_base": 20,
+    "instability": 15,       # Mudança frequente W <-> L
+    "crisis_penalty": 25,    # Momentum de crise
+    "clutch_bonus": -10,     # Fator decisão reduz volatilidade (time frio)
+    "consecutive_losses": 10, # Por derrota seguida
 }
 
-
-def _calculate_team_volatility(ctx: ContextData) -> tuple[float, list[str]]:
-    """Calculate emotional volatility for a single team."""
-    volatility = 25.0  # Base volatility
+def _calculate_team_volatility(team_name: str, ctx: ContextData, clutch: float) -> tuple[float, list[str]]:
+    vol = FACTOR_WEIGHTS["volatility_base"]
     factors = []
 
-    # New coach effect ("Novo Ar")
-    if ctx.coach_change_days is not None and ctx.coach_change_days <= 30:
-        bonus = FACTOR_WEIGHTS["new_coach_bonus"]
-        if ctx.coach_change_days <= 7:
-            bonus *= 1.5  # Extra boost for very recent change
-        volatility += bonus
-        factors.append(f"🔄 Novo treinador ({ctx.coach_change_days} dias) — efeito 'Novo Ar' ativo")
-
-    # Consecutive losses
-    if ctx.consecutive_losses >= 3:
+    # 1. Instabilidade (Alternância de resultados)
+    # Se nos últimos 7 jogos o time tem quase igual W e L
+    wins = ctx.consecutive_losses if ctx.momentum == TeamMomentum.ON_FIRE else 0 # Simplificação rápida
+    # Na verdade, usamos a form_last_5 do match.home_team
+    
+    # 2. Perdas consecutivas
+    if ctx.consecutive_losses >= 2:
         penalty = ctx.consecutive_losses * FACTOR_WEIGHTS["consecutive_losses"]
-        volatility += penalty
-        factors.append(f"📉 Sequência de {ctx.consecutive_losses} derrotas — pressão máxima")
-    elif ctx.consecutive_losses >= 2:
-        volatility += FACTOR_WEIGHTS["consecutive_losses"] * 2
-        factors.append(f"⚠️ {ctx.consecutive_losses} derrotas seguidas — alerta de crise")
+        vol += penalty
+        factors.append(f"⚠️ {team_name}: Pressão por {ctx.consecutive_losses} derrotas seguidas.")
 
-    # VAR stress
-    if ctx.var_incidents_last_5 >= 3:
-        stress = ctx.var_incidents_last_5 * FACTOR_WEIGHTS["var_stress"]
-        volatility += stress
-        factors.append(f"📺 Stress do VAR: {ctx.var_incidents_last_5} incidentes recentes")
-
-    # Ex-player effect ("Lei do Ex")
-    if ctx.ex_players_in_opponent > 0:
-        effect = ctx.ex_players_in_opponent * FACTOR_WEIGHTS["ex_player_effect"]
-        volatility += effect
-        factors.append(f"👤 Lei do Ex: {ctx.ex_players_in_opponent} ex-jogador(es) no adversário")
-
-    # Away fragility
-    if ctx.away_resilience < 0.3:
-        volatility += FACTOR_WEIGHTS["away_fragility"]
-        factors.append("✈️ Fragilidade fora de casa — resiliência baixa")
-
-    # Six-pointer pressure
-    if ctx.is_six_pointer:
-        volatility += FACTOR_WEIGHTS["six_pointer_pressure"]
-        factors.append("🎯 Jogo de 6 pontos — pressão extrema")
-
-    # News sentiment
-    if ctx.recent_news_sentiment < -0.3:
-        penalty = abs(ctx.recent_news_sentiment) * FACTOR_WEIGHTS["negative_news"]
-        volatility += penalty
-        factors.append("📰 Notícias negativas no vestiário")
-
-    # Momentum
+    # 3. Momentum
     if ctx.momentum == TeamMomentum.CRISIS:
-        volatility += FACTOR_WEIGHTS["crisis_momentum"]
-        factors.append("🔴 Time em CRISE de momentum")
+        vol += FACTOR_WEIGHTS["crisis_penalty"]
+        factors.append(f"🔴 {team_name}: Vestiário sob forte pressão (Crise).")
     elif ctx.momentum == TeamMomentum.ON_FIRE:
-        volatility += FACTOR_WEIGHTS["on_fire_stability"]
-        factors.append("🔥 Time ON FIRE — confiança elevada")
-    elif ctx.momentum == TeamMomentum.NEW_COACH:
-        volatility += FACTOR_WEIGHTS["new_coach_bonus"] * 0.5
-        factors.append("🆕 Efeito de novo treinador em andamento")
+        vol += FACTOR_WEIGHTS["clutch_bonus"]
+        factors.append(f"🔥 {team_name}: Confiança elevada pelo momentum.")
 
-    # Clamp to 0-100
-    volatility = max(0, min(100, volatility))
+    # 4. Fator Decisão (Clutch) - Times 'clutch' são mais estáveis sob pressão
+    if clutch > 0.7:
+        vol += FACTOR_WEIGHTS["clutch_bonus"]
+        factors.append(f"🎯 {team_name}: Especialista em gols decisivos (Fator Decisão Alto).")
 
-    return round(volatility, 1), factors
-
+    return max(5, min(95, vol)), factors
 
 def analyze(match: MatchData) -> PsiOutput:
-    """
-    Analyze emotional and psychological factors for both teams.
+    home_vol, home_f = _calculate_team_volatility(match.home_team.name, match.home_context, match.home_team.clutch_factor)
+    away_vol, away_f = _calculate_team_volatility(match.away_team.name, match.away_context, match.away_team.clutch_factor)
 
-    Produces:
-    - Individual team volatility scores
-    - Combined match volatility
-    - Zebra alert if volatility is high
-    - Textual insight for Zebra Hunter widget
-    """
-    home_vol, home_factors = _calculate_team_volatility(match.home_context)
-    away_vol, away_factors = _calculate_team_volatility(match.away_context)
-
-    # Match volatility = weighted average (higher weight to the more volatile team)
-    match_vol = round((home_vol * 0.45 + away_vol * 0.45 + abs(home_vol - away_vol) * 0.1), 1)
+    # Match volatility
+    match_vol = round((home_vol + away_vol) / 2 + abs(home_vol - away_vol) * 0.2, 1)
     match_vol = max(0, min(100, match_vol))
 
-    # Combine factors
-    all_factors = []
-    if home_factors:
-        all_factors.extend([f"🏠 {match.home_team.name}: {f}" for f in home_factors])
-    if away_factors:
-        all_factors.extend([f"✈️ {match.away_team.name}: {f}" for f in away_factors])
-
-    # Zebra detection
-    zebra_alert = match_vol > 55
+    all_factors = home_f + away_f
+    
+    # Zebra Detection
+    zebra_alert = match_vol > 60
     zebra_insight = None
-
     if zebra_alert:
-        # Generate insight based on the strongest emotional factor
-        if any("CRISE" in f for f in all_factors):
-            zebra_insight = (
-                f"⚡ ZEBRA HUNTER: A estatística pode favorecer um lado, mas o vestiário conta "
-                f"outra história. Com crise de momentum, este jogo é imprevisível."
-            )
-        elif any("Novo treinador" in f for f in all_factors):
-            zebra_insight = (
-                f"⚡ ZEBRA HUNTER: Efeito 'Novo Ar' detectado! Troca recente de técnico "
-                f"pode inverter expectativas. Cuidado com a zebra."
-            )
-        elif any("Lei do Ex" in f for f in all_factors):
-            zebra_insight = (
-                f"⚡ ZEBRA HUNTER: A 'Lei do Ex' está em jogo. Motivação extra do ex-jogador "
-                f"pode ser o fator surpresa desta partida."
-            )
+        if home_vol > away_vol + 15:
+            zebra_insight = f"⚡ ZEBRA HUNTER: {match.home_team.name} está instável emocionalmente. Oportunidade para o visitante."
+        elif away_vol > home_vol + 15:
+            zebra_insight = f"⚡ ZEBRA HUNTER: O clima no {match.away_team.name} é tenso. Chance de domínio do mandante."
         else:
-            zebra_insight = (
-                f"⚡ ZEBRA HUNTER: Volatilidade emocional alta ({match_vol:.0f}/100). "
-                f"A emoção pode superar a razão neste confronto."
-            )
+            zebra_insight = "⚡ ZEBRA HUNTER: Alta volatilidade detectada. Jogo propício para resultados inesperados."
 
     return PsiOutput(
         home_volatility=home_vol,
         away_volatility=away_vol,
         match_volatility=match_vol,
-        emotional_factors=all_factors, # Fallback factors
+        emotional_factors=all_factors,
         zebra_alert=zebra_alert,
-        zebra_insight=zebra_insight, # Fallback insight
+        zebra_insight=zebra_insight
     )

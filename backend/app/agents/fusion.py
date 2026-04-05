@@ -85,7 +85,7 @@ def fuse(match: MatchData, alpha: AlphaOutput, psi: PsiOutput) -> FusionResult:
         if ctx.momentum == TeamMomentum.CRISIS or ctx.consecutive_losses >= 3:
             return "cold"
         wins = sum(1 for r in form if r == "W")
-        if wins >= 4:
+        if wins >= 5: # Ajustado para janela de 7 jogos
             return "on_fire"
         if wins <= 1:
             return "cold"
@@ -94,12 +94,10 @@ def fuse(match: MatchData, alpha: AlphaOutput, psi: PsiOutput) -> FusionResult:
     home_temp = assess_temp(match.home_context, match.home_team.form_last_5)
     away_temp = assess_temp(match.away_context, match.away_team.form_last_5)
 
-    # Clutch factor
-    clutch = 0.5
+    # Clutch factor real
+    clutch = alpha.clutch_factor
     if match.home_context.is_six_pointer or match.away_context.is_six_pointer:
-        clutch = 0.8
-    if vol > 60:
-        clutch = min(1.0, clutch + 0.15)
+        clutch = min(1.0, clutch + 0.1)
 
     return FusionResult(
         match_id=match.id,
@@ -119,4 +117,5 @@ def fuse(match: MatchData, alpha: AlphaOutput, psi: PsiOutput) -> FusionResult:
         home_temperature=home_temp,
         away_temperature=away_temp,
         clutch_factor=round(clutch, 2),
+        is_verified=match.is_verified
     )

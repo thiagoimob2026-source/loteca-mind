@@ -9,6 +9,7 @@ export interface TeamData {
   counter_attack_efficiency: number;
   clean_sheet_rate: number;
   form_last_5: string[];
+  clutch_factor?: number;
 }
 
 export interface ContextData {
@@ -33,6 +34,7 @@ export interface MatchData {
   venue: string;
   kickoff_time: string | null;
   head_to_head: { home_wins: number; draws: number; away_wins: number };
+  is_verified?: boolean;
 }
 
 export interface FusionResult {
@@ -55,6 +57,7 @@ export interface FusionResult {
   clutch_factor: number;
   deep_analysis: string | null;
   latest_news_summary?: string | null;
+  is_verified?: boolean;
 }
 
 export interface TicketSuggestion {
