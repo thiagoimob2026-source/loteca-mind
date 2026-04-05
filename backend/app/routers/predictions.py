@@ -58,6 +58,11 @@ async def analyze_round(target_budget: float = 49.90, use_ai: bool = True):
                 
                 if fusion_result.zebra_alert:
                     fusion_result.zebra_insight = ai_insight.get("zebra_hunter_verdict", fusion_result.zebra_insight)
+                
+                # RAG Override for Visual Gauges
+                if "reason_score_override" in ai_insight and "emotion_score_override" in ai_insight:
+                    fusion_result.reason_score = float(ai_insight["reason_score_override"])
+                    fusion_result.emotion_score = float(ai_insight["emotion_score_override"])
 
         fusions.append(fusion_result)
 
