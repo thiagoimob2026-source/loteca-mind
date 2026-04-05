@@ -6,6 +6,7 @@ interface MatchCardProps {
   fusion: FusionResult;
   suggestion?: TicketSuggestion;
   index: number;
+  isVip?: boolean;
   onClick?: () => void;
 }
 
@@ -30,8 +31,12 @@ function BetTypeTag({ type }: { type: string }) {
   return <span className={styles[type] || "tag"}>{type.toUpperCase()}</span>;
 }
 
-export default function MatchCard({ fusion, suggestion, index, onClick }: MatchCardProps) {
+export default function MatchCard({ fusion, suggestion, index, isVip, onClick }: MatchCardProps) {
   const maxProb = Math.max(fusion.home_win_prob, fusion.draw_prob, fusion.away_win_prob);
+
+  // Consider matches 6-14 as PREMIUM (index 5 to 13)
+  const isPremium = index >= 5;
+  const isLocked = isPremium && !isVip;
 
   return (
     <div
@@ -54,7 +59,7 @@ export default function MatchCard({ fusion, suggestion, index, onClick }: MatchC
             JOGO {fusion.match_id}
           </span>
           {fusion.zebra_alert && <span className="tag tag-zebra">🦓 ZEBRA</span>}
-          {index < 5 && <span className="tag tag-high" style={{ background: "transparent", border: "1px solid var(--accent-emerald)" }}>🔍 DETALHADO</span>}
+          {isVip && isPremium && <span className="tag tag-high" style={{ background: "rgba(16, 185, 129, 0.1)", color: "var(--accent-emerald)" }}>💎 ACESSO VIP</span>}
         </div>
         <div className="flex items-center gap-2">
           {suggestion && <BetTypeTag type={suggestion.bet_type} />}
@@ -90,7 +95,7 @@ export default function MatchCard({ fusion, suggestion, index, onClick }: MatchC
       </div>
 
       {/* Paywall Logic for Matches 6-14 (index 5-13) */}
-      {index >= 5 ? (
+      {isLocked ? (
         <div className="relative mt-4">
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4 bg-white/60 backdrop-blur-[4px] rounded-lg border border-slate-200">
             <div className="text-2xl mb-2">🔒</div>

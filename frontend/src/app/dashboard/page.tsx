@@ -7,12 +7,15 @@ import MatchCard from "@/components/MatchCard";
 import LotecaHeatmap from "@/components/LotecaHeatmap";
 import ZebraHunter from "@/components/ZebraHunter";
 import { api } from "@/lib/api";
+import { useAuth } from "@/lib/auth-context";
 import type { LotecaPrediction } from "@/lib/types";
 
 export default function HomePage() {
   const router = useRouter();
+  const { user } = useAuth();
   const [prediction, setPrediction] = useState<LotecaPrediction | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isVip, setIsVip] = useState(false);
   
   // Admin Editor States
   const [showAdminEditor, setShowAdminEditor] = useState(false);
@@ -76,6 +79,26 @@ export default function HomePage() {
     // Carregamento base
     loadPrediction();
   }, []);
+
+  useEffect(() => {
+    const checkUserVip = async () => {
+      if (user?.email) {
+        // Admin sempre é VIP
+        if (user.email === "thiagoimob2026@gmail.com") {
+          setIsVip(true);
+          return;
+        }
+
+        try {
+          const { is_vip } = await api.auth.checkVip(user.email);
+          setIsVip(is_vip);
+        } catch (e) {
+          console.error("Erro ao verificar VIP:", e);
+        }
+      }
+    };
+    checkUserVip();
+  }, [user]);
 
   const avgConfidence = prediction
     ? prediction.fusions.reduce((s, f) => s + f.overall_confidence, 0) / prediction.fusions.length
@@ -302,7 +325,8 @@ export default function HomePage() {
                       fusion={fusion}
                       suggestion={suggestion}
                       index={index}
-                      onClick={() => router.push(`/match/${fusion.match_id}`)}
+                      isVip={isVip || isAdmin}
+                      onClick={() => (isVip || isAdmin || index < 5) && router.push(`/match/${fusion.match_id}`)}
                     />
                   );
                 })}
