@@ -46,6 +46,7 @@ class FusionResult(BaseModel):
     emotional_factors: list[str] = Field(default_factory=list)
     zebra_alert: bool = False
     zebra_insight: Optional[str] = None
+    deep_analysis: Optional[str] = Field(None, description="Análise profunda do comentarista de IA")
 
     # Temperature
     home_temperature: str = Field("stable", description="on_fire | stable | cold")

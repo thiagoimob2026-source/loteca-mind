@@ -4,8 +4,15 @@ Provides realistic match data for 14 games using real Brasileirão teams.
 Will be replaced with real API data in Phase 2.
 """
 
+import os
+import json
 import random
 from app.models.match import MatchData, TeamData, ContextData, TeamMomentum
+from app.services import football_api
+
+
+# Path to the manual contest file
+CONCURSO_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "concurso.json")
 
 
 # Realistic Brasileirão team profiles
@@ -126,7 +133,7 @@ VENUES = [
 ]
 
 
-def _build_team(name: str) -> TeamData:
+def _build_team_mock(name: str) -> TeamData:
     """Build TeamData from profile."""
     profile = TEAM_PROFILES.get(name, TEAM_PROFILES["Guarani"])
     abbrev = name[:3].upper()
@@ -142,27 +149,81 @@ def _build_team(name: str) -> TeamData:
     )
 
 
-def get_current_matches() -> list[MatchData]:
-    """Return the 14 mock matches for the current Loteca round."""
-    matches = []
+async def get_current_matches() -> list[MatchData]:
+    """
+    Orchestrator: Priority 1 - Read from concurso.json (Manual Weekly Grid)
+    Priority 2 - Try to enrich these teams with Real API Data
+    Priority 3 - Fallback to Team Profiles (Mock)
+    """
+    manual_grid = []
+    if os.path.exists(CONCURSO_FILE):
+        try:
+            with open(CONCURSO_FILE, "r", encoding="utf-8") as f:
+                manual_grid = json.load(f)
+        except Exception as e:
+            print(f"[DataService] Erro ao ler concurso.json: {e}")
 
-    for i, (home_name, away_name) in enumerate(MOCK_MATCHDAY):
-        ctx = CONTEXT_SCENARIOS[i] if i < len(CONTEXT_SCENARIOS) else {"home": ContextData(), "away": ContextData()}
-        h2h = HEAD_TO_HEAD_DATA[i] if i < len(HEAD_TO_HEAD_DATA) else {"home_wins": 5, "draws": 3, "away_wins": 4}
-        venue = VENUES[i] if i < len(VENUES) else "Estádio"
+    if not manual_grid or len(manual_grid) < 14:
+        print("[DataService] concurso.json vazio ou incompleto. Usando grade padrão.")
+        manual_grid = MOCK_MATCHDAY
 
-        match = MatchData(
-            id=i + 1,
-            round_number=10,
-            competition="Brasileirão Série A",
-            home_team=_build_team(home_name),
-            away_team=_build_team(away_name),
-            home_context=ctx["home"],
-            away_context=ctx["away"],
-            venue=venue,
-            kickoff_time=f"2026-04-06T{16 + (i % 4) * 2}:00:00-03:00",
-            head_to_head=h2h,
-        )
-        matches.append(match)
+    try:
+        # Pre-fetch ALL real matches for current Brasileirão rounds
+        # This helps us "resolve" the teams in our manual grid
+        all_real_matches = await football_api.fetch_real_matches()
+        real_lookup = {}
+        for m in all_real_matches:
+            # Simple lookup keys
+            real_lookup[m.home_team.name.lower()] = m
+            real_lookup[m.away_team.name.lower()] = m
+        
+        matches = []
+        for i, (home_name, away_name) in enumerate(manual_grid):
+            # Try to find this game in real data
+            resolved_match = None
+            h_low, a_low = home_name.lower(), away_name.lower()
+            
+            # Check if any real match contains these teams
+            for m in all_real_matches:
+                if (m.home_team.name.lower() == h_low and m.away_team.name.lower() == a_low) or \
+                   (m.home_team.name.lower() == a_low and m.away_team.name.lower() == h_low):
+                    resolved_match = m
+                    break
+            
+            if resolved_match:
+                # Use real data but preserve the manual ID (1-14)
+                match = resolved_match.model_copy()
+                match.id = i + 1
+                matches.append(match)
+            else:
+                # Use mock profile for this specific pair
+                matches.append(_build_manual_match(i + 1, home_name, away_name))
+        
+        print(f"[DataService] Grade de 14 jogos carregada (Manual + API Enrichment) 🚀")
+        return matches
 
-    return matches
+    except Exception as e:
+        print(f"[DataService] API Error during enrichment: {e}. Servindo grade manual pura.")
+        return [_build_manual_match(i + 1, h, a) for i, (h, a) in enumerate(manual_grid)]
+
+
+def _build_manual_match(id: int, home_name: str, away_name: str) -> MatchData:
+    """Build a match from team names using local profiles (Fallback)."""
+    return MatchData(
+        id=id,
+        round_number=10, # Current competition round
+        competition="Loteca (Official Selection)",
+        home_team=_build_team_mock(home_name),
+        away_team=_build_team_mock(away_name),
+        home_context=ContextData(), # Default context for manual grid
+        away_context=ContextData(),
+        venue="Estádio Nacional",
+        kickoff_time=f"2026-04-06T16:00:00-03:00",
+        head_to_head={"home_wins": 5, "draws": 3, "away_wins": 3},
+    )
+
+
+def _generate_mock_matches() -> list[MatchData]:
+    """Retorna os 14 jogos mockados originais."""
+    # (Obsoleto, agora usamos _build_manual_match loop)
+    return [_build_manual_match(i+1, h, a) for i, (h, a) in enumerate(MOCK_MATCHDAY)]

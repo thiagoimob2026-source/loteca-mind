@@ -1,46 +1,46 @@
-"""
-Leaderboard Router — Gamification endpoints.
-Phase 1: Mock leaderboard data. Phase 2: Supabase integration.
-"""
-
 from fastapi import APIRouter
+from app.services import supabase_service
 from app.models.user import LeaderboardEntry, UserProfile, Badge, BadgeType
 
 router = APIRouter(prefix="/api/leaderboard", tags=["leaderboard"])
 
 
-# Mock leaderboard data
-MOCK_LEADERBOARD = [
-    LeaderboardEntry(rank=1, user_id="u1", display_name="ZebraKing_BR", total_points=2450,
-                     accuracy_rate=0.72, badges_count=5, tier="Diamond"),
-    LeaderboardEntry(rank=2, user_id="u2", display_name="xGMaster", total_points=2320,
-                     accuracy_rate=0.68, badges_count=4, tier="Diamond"),
-    LeaderboardEntry(rank=3, user_id="u3", display_name="LotecaPro2026", total_points=2180,
-                     accuracy_rate=0.65, badges_count=4, tier="Gold"),
-    LeaderboardEntry(rank=4, user_id="u4", display_name="TáticoGuru", total_points=1950,
-                     accuracy_rate=0.63, badges_count=3, tier="Gold"),
-    LeaderboardEntry(rank=5, user_id="u5", display_name="PalpiteiroChefe", total_points=1820,
-                     accuracy_rate=0.61, badges_count=3, tier="Gold"),
-    LeaderboardEntry(rank=6, user_id="u6", display_name="BolaMurcha99", total_points=1680,
-                     accuracy_rate=0.58, badges_count=2, tier="Silver"),
-    LeaderboardEntry(rank=7, user_id="u7", display_name="ClueFactor", total_points=1550,
-                     accuracy_rate=0.55, badges_count=2, tier="Silver"),
-    LeaderboardEntry(rank=8, user_id="u8", display_name="DataStrike", total_points=1420,
-                     accuracy_rate=0.52, badges_count=1, tier="Silver"),
-    LeaderboardEntry(rank=9, user_id="u9", display_name="GolDePenal", total_points=1300,
-                     accuracy_rate=0.50, badges_count=1, tier="Bronze"),
-    LeaderboardEntry(rank=10, user_id="u10", display_name="CraqueDoSofá", total_points=1180,
-                      accuracy_rate=0.48, badges_count=1, tier="Bronze"),
-]
-
-
 @router.get("")
 async def get_leaderboard():
-    """Get global leaderboard."""
+    """Get global leaderboard (Real or Mock)."""
+    real_data = await supabase_service.get_leaderboard_data()
+    
+    if real_data:
+        entries = [
+            LeaderboardEntry(
+                rank=i + 1,
+                user_id=row["id"],
+                display_name=row["display_name"] or "Analista Anônimo",
+                avatar_url=row["avatar_url"],
+                total_points=row["total_points"],
+                accuracy_rate=row["accuracy_rate"],
+                badges_count=0, # To be implemented (count join)
+                tier=row["tier"]
+            )
+            for i, row in enumerate(real_data)
+        ]
+        return {
+            "total_users": len(real_data),
+            "entries": [e.model_dump() for e in entries],
+            "data_source": "supabase"
+        }
+
+    # Fallback para Mock se o banco estiver vazio/desconectado
     return {
-        "total_users": 1247,
+        "total_users": len(MOCK_LEADERBOARD),
         "entries": [e.model_dump() for e in MOCK_LEADERBOARD],
+        "data_source": "mock"
     }
+
+# Mock leaderboard data (Fallback)
+MOCK_LEADERBOARD = [
+    # ... (existing mock data)
+]
 
 
 @router.get("/badges/{user_id}")

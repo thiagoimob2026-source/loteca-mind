@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter
 
 from app.services.data_service import get_current_matches
+from app.services import gemini_service, supabase_service
 from app.agents import alpha, psi
 from app.agents.fusion import fuse
 from app.agents.strategist import optimize
@@ -18,30 +19,49 @@ _latest_prediction: dict | None = None
 
 
 @router.post("/analyze")
-async def analyze_round(target_budget: float = 49.90):
+async def analyze_round(target_budget: float = 49.90, use_ai: bool = True):
     """
     Run full AI analysis pipeline:
     1. Get match data
     2. Run Alpha (tactical) on each match
     3. Run Psi (psychological) on each match
     4. Fuse results
-    5. Optimize ticket with Strategist
+    5. Generate AI Narratives (Phase 2C - Internal Site Analyst)
+    6. Optimize ticket with Strategist
     """
     global _latest_prediction
 
-    matches = get_current_matches()
+    matches = await get_current_matches()
     fusions = []
 
     for match in matches:
-        # Run agents in parallel (conceptually — they're pure functions)
+        # 1-3. Run agents
         alpha_result = alpha.analyze(match)
         psi_result = psi.analyze(match)
-
-        # Fuse
+        
+        # 4. Fuse
         fusion_result = fuse(match, alpha_result, psi_result)
+        
+        # 5. Gemini AI Insight (Service for the Site)
+        if use_ai:
+            ai_insight = await gemini_service.generate_match_analysis(
+                match, # Pass full match object
+                alpha_data=alpha_result.model_dump(),
+                psi_data=psi_result.model_dump()
+            )
+            
+            if ai_insight:
+                # Update fusion result with premium AI text
+                fusion_result.key_factors = ai_insight.get("technical_summary", fusion_result.key_factors)
+                fusion_result.emotional_factors = [ai_insight.get("emotional_narrative", "")]
+                fusion_result.deep_analysis = ai_insight.get("deep_analysis")
+                
+                if fusion_result.zebra_alert:
+                    fusion_result.zebra_insight = ai_insight.get("zebra_hunter_verdict", fusion_result.zebra_insight)
+
         fusions.append(fusion_result)
 
-    # Optimize ticket
+    # 6. Optimize ticket
     strategy = optimize(fusions, target_budget=target_budget)
 
     # Build complete prediction
@@ -54,16 +74,30 @@ async def analyze_round(target_budget: float = 49.90):
     )
 
     _latest_prediction = prediction.model_dump()
+    
+    # Persistir no Supabase (Deploy Readiness)
+    await supabase_service.save_round_analysis(prediction.round_number, _latest_prediction)
+    
     return _latest_prediction
 
 
 @router.get("/latest")
 async def get_latest_prediction():
-    """Return the most recent prediction (or generate one if none exists)."""
+    """Return the most recent prediction (from Cache or Supabase)."""
     global _latest_prediction
-    if _latest_prediction is None:
-        return await analyze_round()
-    return _latest_prediction
+    
+    # 1. Check Cache
+    if _latest_prediction:
+        return _latest_prediction
+    
+    # 2. Check Supabase
+    db_prediction = await supabase_service.get_latest_analysis()
+    if db_prediction:
+        _latest_prediction = db_prediction
+        return _latest_prediction
+        
+    # 3. Last resort: Generate new
+    return await analyze_round()
 
 
 @router.get("/{match_id}")

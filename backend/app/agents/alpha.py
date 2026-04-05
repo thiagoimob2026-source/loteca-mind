@@ -140,6 +140,6 @@ def analyze(match: MatchData) -> AlphaOutput:
         draw_prob=draw_prob,
         away_win_prob=away_prob,
         confidence=round(confidence, 3),
-        key_factors=factors,
+        key_factors=factors, # These serve as a fallback if AI is disabled
         xg_differential=round(xg_diff, 2),
     )

@@ -146,7 +146,7 @@ def analyze(match: MatchData) -> PsiOutput:
         home_volatility=home_vol,
         away_volatility=away_vol,
         match_volatility=match_vol,
-        emotional_factors=all_factors,
+        emotional_factors=all_factors, # Fallback factors
         zebra_alert=zebra_alert,
-        zebra_insight=zebra_insight,
+        zebra_insight=zebra_insight, # Fallback insight
     )

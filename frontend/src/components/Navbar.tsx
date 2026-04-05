@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth-context";
 
 const NAV_ITEMS = [
   { href: "/", label: "The Hub", icon: "🏠" },
@@ -10,6 +11,8 @@ const NAV_ITEMS = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, logout, loading } = useAuth();
 
   return (
     <nav
@@ -70,7 +73,7 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Status */}
+          {/* User / Login */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <div
@@ -80,10 +83,47 @@ export default function Navbar() {
                   animation: "pulse-slow 2s ease-in-out infinite",
                 }}
               />
-              <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+              <span className="text-xs hidden sm:inline" style={{ color: "var(--text-secondary)" }}>
                 Engine Online
               </span>
             </div>
+
+            {!loading && (
+              user ? (
+                <div className="flex items-center gap-2">
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+                    style={{
+                      background: "linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan))",
+                      color: "white",
+                    }}
+                  >
+                    {user.email?.charAt(0).toUpperCase() || "U"}
+                  </div>
+                  <button
+                    onClick={logout}
+                    className="text-xs px-3 py-1.5 rounded-lg transition-all duration-200"
+                    style={{
+                      color: "var(--text-muted)",
+                      border: "1px solid var(--border-subtle)",
+                    }}
+                  >
+                    Sair
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => router.push("/login")}
+                  className="text-xs font-medium px-4 py-2 rounded-lg transition-all duration-200"
+                  style={{
+                    background: "linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan))",
+                    color: "white",
+                  }}
+                >
+                  Entrar
+                </button>
+              )
+            )}
           </div>
         </div>
       </div>

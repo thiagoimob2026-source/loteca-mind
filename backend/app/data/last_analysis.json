@@ -1,0 +1,1644 @@
+{
+  "round": 10,
+  "timestamp": "2026-04-06T10:00:00Z",
+  "matches": [
+    {
+      "match": {
+        "id": 1,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Flamengo",
+          "abbreviation": "FLA",
+          "xg_accumulated": 1.85,
+          "vertical_passes_avg": 22.0,
+          "box_entries_avg": 18.0,
+          "counter_attack_efficiency": 0.35,
+          "clean_sheet_rate": 0.4,
+          "form_last_5": [
+            "W",
+            "W",
+            "D",
+            "W",
+            "L"
+          ]
+        },
+        "away_team": {
+          "name": "Palmeiras",
+          "abbreviation": "PAL",
+          "xg_accumulated": 1.72,
+          "vertical_passes_avg": 20.0,
+          "box_entries_avg": 16.0,
+          "counter_attack_efficiency": 0.3,
+          "clean_sheet_rate": 0.45,
+          "form_last_5": [
+            "W",
+            "W",
+            "W",
+            "D",
+            "W"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.364,
+          "draw_prob": 0.424,
+          "away_win_prob": 0.212,
+          "confidence": 0.43,
+          "key_factors": [
+            "xG Diff: +0.13 (mandante advantage)",
+            "Momento: visitante em melhor fase"
+          ],
+          "xg_differential": 0.13
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 1,
+          "home_team": "Flamengo",
+          "away_team": "Palmeiras",
+          "home_win_prob": 0.364,
+          "draw_prob": 0.424,
+          "away_win_prob": 0.212,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.362,
+          "suggested_column": "X",
+          "key_factors": [
+            "xG Diff: +0.13 (mandante advantage)",
+            "Momento: visitante em melhor fase"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "stable",
+          "away_temperature": "on_fire",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Flamengo vs Palmeiras."
+      }
+    },
+    {
+      "match": {
+        "id": 2,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Botafogo",
+          "abbreviation": "BOT",
+          "xg_accumulated": 1.65,
+          "vertical_passes_avg": 19.0,
+          "box_entries_avg": 15.0,
+          "counter_attack_efficiency": 0.32,
+          "clean_sheet_rate": 0.35,
+          "form_last_5": [
+            "W",
+            "D",
+            "W",
+            "W",
+            "D"
+          ]
+        },
+        "away_team": {
+          "name": "Atlético-MG",
+          "abbreviation": "ATL",
+          "xg_accumulated": 1.55,
+          "vertical_passes_avg": 18.0,
+          "box_entries_avg": 14.0,
+          "counter_attack_efficiency": 0.28,
+          "clean_sheet_rate": 0.3,
+          "form_last_5": [
+            "L",
+            "W",
+            "D",
+            "W",
+            "W"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.376,
+          "draw_prob": 0.42,
+          "away_win_prob": 0.204,
+          "confidence": 0.425,
+          "key_factors": [
+            "xG Diff: +0.10 (mandante advantage)"
+          ],
+          "xg_differential": 0.1
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 2,
+          "home_team": "Botafogo",
+          "away_team": "Atlético-MG",
+          "home_win_prob": 0.376,
+          "draw_prob": 0.42,
+          "away_win_prob": 0.204,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.357,
+          "suggested_column": "X",
+          "key_factors": [
+            "xG Diff: +0.10 (mandante advantage)"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "stable",
+          "away_temperature": "stable",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Botafogo vs Atlético-MG."
+      }
+    },
+    {
+      "match": {
+        "id": 3,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "São Paulo",
+          "abbreviation": "SÃO",
+          "xg_accumulated": 1.5,
+          "vertical_passes_avg": 17.0,
+          "box_entries_avg": 14.0,
+          "counter_attack_efficiency": 0.25,
+          "clean_sheet_rate": 0.35,
+          "form_last_5": [
+            "D",
+            "W",
+            "W",
+            "L",
+            "D"
+          ]
+        },
+        "away_team": {
+          "name": "Fluminense",
+          "abbreviation": "FLU",
+          "xg_accumulated": 1.3,
+          "vertical_passes_avg": 16.0,
+          "box_entries_avg": 13.0,
+          "counter_attack_efficiency": 0.22,
+          "clean_sheet_rate": 0.25,
+          "form_last_5": [
+            "L",
+            "L",
+            "D",
+            "W",
+            "L"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.443,
+          "draw_prob": 0.227,
+          "away_win_prob": 0.33,
+          "confidence": 0.453,
+          "key_factors": [
+            "xG Diff: +0.20 (mandante advantage)",
+            "Momento: mandante em melhor fase"
+          ],
+          "xg_differential": 0.2
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 3,
+          "home_team": "São Paulo",
+          "away_team": "Fluminense",
+          "home_win_prob": 0.443,
+          "draw_prob": 0.227,
+          "away_win_prob": 0.33,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.386,
+          "suggested_column": "1",
+          "key_factors": [
+            "xG Diff: +0.20 (mandante advantage)",
+            "Momento: mandante em melhor fase"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "stable",
+          "away_temperature": "cold",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre São Paulo vs Fluminense."
+      }
+    },
+    {
+      "match": {
+        "id": 4,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Internacional",
+          "abbreviation": "INT",
+          "xg_accumulated": 1.6,
+          "vertical_passes_avg": 18.0,
+          "box_entries_avg": 15.0,
+          "counter_attack_efficiency": 0.27,
+          "clean_sheet_rate": 0.38,
+          "form_last_5": [
+            "W",
+            "W",
+            "D",
+            "D",
+            "W"
+          ]
+        },
+        "away_team": {
+          "name": "Grêmio",
+          "abbreviation": "GRÊ",
+          "xg_accumulated": 1.4,
+          "vertical_passes_avg": 16.0,
+          "box_entries_avg": 13.0,
+          "counter_attack_efficiency": 0.24,
+          "clean_sheet_rate": 0.3,
+          "form_last_5": [
+            "D",
+            "L",
+            "W",
+            "D",
+            "W"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.444,
+          "draw_prob": 0.226,
+          "away_win_prob": 0.33,
+          "confidence": 0.454,
+          "key_factors": [
+            "xG Diff: +0.20 (mandante advantage)"
+          ],
+          "xg_differential": 0.2
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 4,
+          "home_team": "Internacional",
+          "away_team": "Grêmio",
+          "home_win_prob": 0.444,
+          "draw_prob": 0.226,
+          "away_win_prob": 0.33,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.387,
+          "suggested_column": "1",
+          "key_factors": [
+            "xG Diff: +0.20 (mandante advantage)"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "stable",
+          "away_temperature": "stable",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Internacional vs Grêmio."
+      }
+    },
+    {
+      "match": {
+        "id": 5,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Corinthians",
+          "abbreviation": "COR",
+          "xg_accumulated": 1.35,
+          "vertical_passes_avg": 15.0,
+          "box_entries_avg": 12.0,
+          "counter_attack_efficiency": 0.2,
+          "clean_sheet_rate": 0.28,
+          "form_last_5": [
+            "L",
+            "D",
+            "L",
+            "W",
+            "D"
+          ]
+        },
+        "away_team": {
+          "name": "Cruzeiro",
+          "abbreviation": "CRU",
+          "xg_accumulated": 1.45,
+          "vertical_passes_avg": 17.0,
+          "box_entries_avg": 14.0,
+          "counter_attack_efficiency": 0.26,
+          "clean_sheet_rate": 0.32,
+          "form_last_5": [
+            "W",
+            "D",
+            "W",
+            "L",
+            "W"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.317,
+          "draw_prob": 0.437,
+          "away_win_prob": 0.246,
+          "confidence": 0.442,
+          "key_factors": [
+            "xG Diff: -0.10 (visitante advantage)",
+            "Momento: visitante em melhor fase"
+          ],
+          "xg_differential": -0.1
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 5,
+          "home_team": "Corinthians",
+          "away_team": "Cruzeiro",
+          "home_win_prob": 0.317,
+          "draw_prob": 0.437,
+          "away_win_prob": 0.246,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.374,
+          "suggested_column": "X",
+          "key_factors": [
+            "xG Diff: -0.10 (visitante advantage)",
+            "Momento: visitante em melhor fase"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "cold",
+          "away_temperature": "stable",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Corinthians vs Cruzeiro."
+      }
+    },
+    {
+      "match": {
+        "id": 6,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Bahia",
+          "abbreviation": "BAH",
+          "xg_accumulated": 1.5,
+          "vertical_passes_avg": 17.0,
+          "box_entries_avg": 14.0,
+          "counter_attack_efficiency": 0.28,
+          "clean_sheet_rate": 0.33,
+          "form_last_5": [
+            "W",
+            "W",
+            "D",
+            "W",
+            "D"
+          ]
+        },
+        "away_team": {
+          "name": "Vasco",
+          "abbreviation": "VAS",
+          "xg_accumulated": 1.25,
+          "vertical_passes_avg": 14.0,
+          "box_entries_avg": 11.0,
+          "counter_attack_efficiency": 0.19,
+          "clean_sheet_rate": 0.22,
+          "form_last_5": [
+            "L",
+            "L",
+            "W",
+            "D",
+            "L"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.465,
+          "draw_prob": 0.221,
+          "away_win_prob": 0.314,
+          "confidence": 0.478,
+          "key_factors": [
+            "xG Diff: +0.25 (mandante advantage)",
+            "Pressão ofensiva: mandante domina as entradas na área",
+            "Momento: mandante em melhor fase"
+          ],
+          "xg_differential": 0.25
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 6,
+          "home_team": "Bahia",
+          "away_team": "Vasco",
+          "home_win_prob": 0.465,
+          "draw_prob": 0.221,
+          "away_win_prob": 0.314,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.41,
+          "suggested_column": "1",
+          "key_factors": [
+            "xG Diff: +0.25 (mandante advantage)",
+            "Pressão ofensiva: mandante domina as entradas na área",
+            "Momento: mandante em melhor fase"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "stable",
+          "away_temperature": "cold",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Bahia vs Vasco."
+      }
+    },
+    {
+      "match": {
+        "id": 7,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Fortaleza",
+          "abbreviation": "FOR",
+          "xg_accumulated": 1.55,
+          "vertical_passes_avg": 18.0,
+          "box_entries_avg": 15.0,
+          "counter_attack_efficiency": 0.3,
+          "clean_sheet_rate": 0.36,
+          "form_last_5": [
+            "W",
+            "W",
+            "W",
+            "D",
+            "D"
+          ]
+        },
+        "away_team": {
+          "name": "Athletico-PR",
+          "abbreviation": "ATH",
+          "xg_accumulated": 1.38,
+          "vertical_passes_avg": 16.0,
+          "box_entries_avg": 13.0,
+          "counter_attack_efficiency": 0.23,
+          "clean_sheet_rate": 0.28,
+          "form_last_5": [
+            "D",
+            "W",
+            "L",
+            "D",
+            "W"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.444,
+          "draw_prob": 0.226,
+          "away_win_prob": 0.329,
+          "confidence": 0.453,
+          "key_factors": [
+            "xG Diff: +0.17 (mandante advantage)"
+          ],
+          "xg_differential": 0.17
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 7,
+          "home_team": "Fortaleza",
+          "away_team": "Athletico-PR",
+          "home_win_prob": 0.444,
+          "draw_prob": 0.227,
+          "away_win_prob": 0.329,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.386,
+          "suggested_column": "1",
+          "key_factors": [
+            "xG Diff: +0.17 (mandante advantage)"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "stable",
+          "away_temperature": "stable",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Fortaleza vs Athletico-PR."
+      }
+    },
+    {
+      "match": {
+        "id": 8,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Santos",
+          "abbreviation": "SAN",
+          "xg_accumulated": 1.2,
+          "vertical_passes_avg": 14.0,
+          "box_entries_avg": 11.0,
+          "counter_attack_efficiency": 0.18,
+          "clean_sheet_rate": 0.2,
+          "form_last_5": [
+            "L",
+            "D",
+            "L",
+            "L",
+            "W"
+          ]
+        },
+        "away_team": {
+          "name": "Bragantino",
+          "abbreviation": "BRA",
+          "xg_accumulated": 1.42,
+          "vertical_passes_avg": 16.0,
+          "box_entries_avg": 13.0,
+          "counter_attack_efficiency": 0.25,
+          "clean_sheet_rate": 0.3,
+          "form_last_5": [
+            "D",
+            "W",
+            "D",
+            "W",
+            "L"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.31,
+          "draw_prob": 0.44,
+          "away_win_prob": 0.251,
+          "confidence": 0.451,
+          "key_factors": [
+            "xG Diff: -0.22 (visitante advantage)",
+            "Momento: visitante em melhor fase"
+          ],
+          "xg_differential": -0.22
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 8,
+          "home_team": "Santos",
+          "away_team": "Bragantino",
+          "home_win_prob": 0.31,
+          "draw_prob": 0.439,
+          "away_win_prob": 0.251,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.384,
+          "suggested_column": "X",
+          "key_factors": [
+            "xG Diff: -0.22 (visitante advantage)",
+            "Momento: visitante em melhor fase"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "cold",
+          "away_temperature": "stable",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Santos vs Bragantino."
+      }
+    },
+    {
+      "match": {
+        "id": 9,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Juventude",
+          "abbreviation": "JUV",
+          "xg_accumulated": 1.1,
+          "vertical_passes_avg": 13.0,
+          "box_entries_avg": 10.0,
+          "counter_attack_efficiency": 0.16,
+          "clean_sheet_rate": 0.18,
+          "form_last_5": [
+            "L",
+            "L",
+            "D",
+            "L",
+            "D"
+          ]
+        },
+        "away_team": {
+          "name": "Cuiabá",
+          "abbreviation": "CUI",
+          "xg_accumulated": 1.05,
+          "vertical_passes_avg": 12.0,
+          "box_entries_avg": 9.0,
+          "counter_attack_efficiency": 0.15,
+          "clean_sheet_rate": 0.15,
+          "form_last_5": [
+            "L",
+            "D",
+            "L",
+            "L",
+            "L"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.37,
+          "draw_prob": 0.422,
+          "away_win_prob": 0.208,
+          "confidence": 0.424,
+          "key_factors": [
+            "xG Diff: +0.05 (mandante advantage)"
+          ],
+          "xg_differential": 0.05
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 9,
+          "home_team": "Juventude",
+          "away_team": "Cuiabá",
+          "home_win_prob": 0.37,
+          "draw_prob": 0.422,
+          "away_win_prob": 0.208,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.356,
+          "suggested_column": "X",
+          "key_factors": [
+            "xG Diff: +0.05 (mandante advantage)"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "cold",
+          "away_temperature": "cold",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Juventude vs Cuiabá."
+      }
+    },
+    {
+      "match": {
+        "id": 10,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Vitória",
+          "abbreviation": "VIT",
+          "xg_accumulated": 1.15,
+          "vertical_passes_avg": 13.0,
+          "box_entries_avg": 10.0,
+          "counter_attack_efficiency": 0.17,
+          "clean_sheet_rate": 0.2,
+          "form_last_5": [
+            "D",
+            "L",
+            "W",
+            "L",
+            "D"
+          ]
+        },
+        "away_team": {
+          "name": "Sport",
+          "abbreviation": "SPO",
+          "xg_accumulated": 1.18,
+          "vertical_passes_avg": 14.0,
+          "box_entries_avg": 11.0,
+          "counter_attack_efficiency": 0.19,
+          "clean_sheet_rate": 0.22,
+          "form_last_5": [
+            "W",
+            "D",
+            "L",
+            "W",
+            "D"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.336,
+          "draw_prob": 0.432,
+          "away_win_prob": 0.232,
+          "confidence": 0.433,
+          "key_factors": [
+            "xG Diff: -0.03 (visitante advantage)"
+          ],
+          "xg_differential": -0.03
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 10,
+          "home_team": "Vitória",
+          "away_team": "Sport",
+          "home_win_prob": 0.336,
+          "draw_prob": 0.432,
+          "away_win_prob": 0.232,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.365,
+          "suggested_column": "X",
+          "key_factors": [
+            "xG Diff: -0.03 (visitante advantage)"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "cold",
+          "away_temperature": "stable",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Vitória vs Sport."
+      }
+    },
+    {
+      "match": {
+        "id": 11,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Criciúma",
+          "abbreviation": "CRI",
+          "xg_accumulated": 1.08,
+          "vertical_passes_avg": 12.0,
+          "box_entries_avg": 9.0,
+          "counter_attack_efficiency": 0.14,
+          "clean_sheet_rate": 0.16,
+          "form_last_5": [
+            "L",
+            "L",
+            "D",
+            "D",
+            "L"
+          ]
+        },
+        "away_team": {
+          "name": "Mirassol",
+          "abbreviation": "MIR",
+          "xg_accumulated": 1.22,
+          "vertical_passes_avg": 14.0,
+          "box_entries_avg": 11.0,
+          "counter_attack_efficiency": 0.2,
+          "clean_sheet_rate": 0.24,
+          "form_last_5": [
+            "D",
+            "W",
+            "D",
+            "L",
+            "W"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.309,
+          "draw_prob": 0.44,
+          "away_win_prob": 0.251,
+          "confidence": 0.447,
+          "key_factors": [
+            "xG Diff: -0.14 (visitante advantage)",
+            "Momento: visitante em melhor fase"
+          ],
+          "xg_differential": -0.14
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 11,
+          "home_team": "Criciúma",
+          "away_team": "Mirassol",
+          "home_win_prob": 0.309,
+          "draw_prob": 0.44,
+          "away_win_prob": 0.251,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.38,
+          "suggested_column": "X",
+          "key_factors": [
+            "xG Diff: -0.14 (visitante advantage)",
+            "Momento: visitante em melhor fase"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "cold",
+          "away_temperature": "stable",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Criciúma vs Mirassol."
+      }
+    },
+    {
+      "match": {
+        "id": 12,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Ceará",
+          "abbreviation": "CEA",
+          "xg_accumulated": 1.15,
+          "vertical_passes_avg": 13.0,
+          "box_entries_avg": 10.0,
+          "counter_attack_efficiency": 0.18,
+          "clean_sheet_rate": 0.21,
+          "form_last_5": [
+            "W",
+            "L",
+            "D",
+            "W",
+            "L"
+          ]
+        },
+        "away_team": {
+          "name": "Coritiba",
+          "abbreviation": "COR",
+          "xg_accumulated": 1.12,
+          "vertical_passes_avg": 13.0,
+          "box_entries_avg": 10.0,
+          "counter_attack_efficiency": 0.17,
+          "clean_sheet_rate": 0.19,
+          "form_last_5": [
+            "L",
+            "D",
+            "L",
+            "D",
+            "W"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.366,
+          "draw_prob": 0.423,
+          "away_win_prob": 0.211,
+          "confidence": 0.424,
+          "key_factors": [
+            "xG Diff: +0.03 (mandante advantage)"
+          ],
+          "xg_differential": 0.03
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 12,
+          "home_team": "Ceará",
+          "away_team": "Coritiba",
+          "home_win_prob": 0.366,
+          "draw_prob": 0.423,
+          "away_win_prob": 0.211,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.356,
+          "suggested_column": "X",
+          "key_factors": [
+            "xG Diff: +0.03 (mandante advantage)"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "stable",
+          "away_temperature": "cold",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Ceará vs Coritiba."
+      }
+    },
+    {
+      "match": {
+        "id": 13,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Goiás",
+          "abbreviation": "GOI",
+          "xg_accumulated": 1.18,
+          "vertical_passes_avg": 14.0,
+          "box_entries_avg": 11.0,
+          "counter_attack_efficiency": 0.19,
+          "clean_sheet_rate": 0.22,
+          "form_last_5": [
+            "D",
+            "L",
+            "W",
+            "L",
+            "D"
+          ]
+        },
+        "away_team": {
+          "name": "América-MG",
+          "abbreviation": "AMÉ",
+          "xg_accumulated": 1.2,
+          "vertical_passes_avg": 14.0,
+          "box_entries_avg": 11.0,
+          "counter_attack_efficiency": 0.2,
+          "clean_sheet_rate": 0.23,
+          "form_last_5": [
+            "L",
+            "W",
+            "D",
+            "L",
+            "W"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.347,
+          "draw_prob": 0.429,
+          "away_win_prob": 0.225,
+          "confidence": 0.43,
+          "key_factors": [
+            "xG Diff: -0.02 (visitante advantage)"
+          ],
+          "xg_differential": -0.02
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 13,
+          "home_team": "Goiás",
+          "away_team": "América-MG",
+          "home_win_prob": 0.347,
+          "draw_prob": 0.428,
+          "away_win_prob": 0.225,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.362,
+          "suggested_column": "X",
+          "key_factors": [
+            "xG Diff: -0.02 (visitante advantage)"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "cold",
+          "away_temperature": "stable",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Goiás vs América-MG."
+      }
+    },
+    {
+      "match": {
+        "id": 14,
+        "round_number": 10,
+        "competition": "Loteca (Official Selection)",
+        "home_team": {
+          "name": "Ponte Preta",
+          "abbreviation": "PON",
+          "xg_accumulated": 1.05,
+          "vertical_passes_avg": 12.0,
+          "box_entries_avg": 9.0,
+          "counter_attack_efficiency": 0.14,
+          "clean_sheet_rate": 0.16,
+          "form_last_5": [
+            "D",
+            "L",
+            "L",
+            "D",
+            "L"
+          ]
+        },
+        "away_team": {
+          "name": "Guarani",
+          "abbreviation": "GUA",
+          "xg_accumulated": 1.02,
+          "vertical_passes_avg": 11.0,
+          "box_entries_avg": 8.0,
+          "counter_attack_efficiency": 0.13,
+          "clean_sheet_rate": 0.14,
+          "form_last_5": [
+            "L",
+            "L",
+            "D",
+            "L",
+            "L"
+          ]
+        },
+        "home_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "away_context": {
+          "momentum": "stable",
+          "coach_change_days": null,
+          "var_incidents_last_5": 0,
+          "ex_players_in_opponent": 0,
+          "away_resilience": 0.5,
+          "consecutive_losses": 0,
+          "is_six_pointer": false,
+          "recent_news_sentiment": 0.0
+        },
+        "venue": "Estádio Nacional",
+        "kickoff_time": "2026-04-06T16:00:00-03:00",
+        "head_to_head": {
+          "home_wins": 5,
+          "draws": 3,
+          "away_wins": 3
+        }
+      },
+      "reports": {
+        "alpha": {
+          "home_win_prob": 0.368,
+          "draw_prob": 0.423,
+          "away_win_prob": 0.209,
+          "confidence": 0.424,
+          "key_factors": [
+            "xG Diff: +0.03 (mandante advantage)"
+          ],
+          "xg_differential": 0.03
+        },
+        "psi": {
+          "home_volatility": 25.0,
+          "away_volatility": 25.0,
+          "match_volatility": 22.5,
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null
+        },
+        "fusion": {
+          "match_id": 14,
+          "home_team": "Ponte Preta",
+          "away_team": "Guarani",
+          "home_win_prob": 0.368,
+          "draw_prob": 0.423,
+          "away_win_prob": 0.209,
+          "reason_score": 90.0,
+          "emotion_score": 10.0,
+          "overall_confidence": 0.356,
+          "suggested_column": "X",
+          "key_factors": [
+            "xG Diff: +0.03 (mandante advantage)"
+          ],
+          "emotional_factors": [],
+          "zebra_alert": false,
+          "zebra_insight": null,
+          "deep_analysis": null,
+          "home_temperature": "cold",
+          "away_temperature": "cold",
+          "clutch_factor": 0.5
+        }
+      },
+      "insights": {
+        "technical_summary": [
+          "Análise baseada em volume histórico."
+        ],
+        "emotional_narrative": "Equilíbrio emocional esperado.",
+        "zebra_hunter_verdict": null,
+        "deep_analysis": "Confronto equilibrado no estádio. A estatística sugere um jogo estratégico entre Ponte Preta vs Guarani."
+      }
+    }
+  ]
+}

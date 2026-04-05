@@ -36,6 +36,20 @@ app.include_router(predictions.router)
 app.include_router(leaderboard.router)
 
 
+@app.on_event("startup")
+async def startup_event():
+    if settings.FOOTBALL_API_KEY:
+        print("\n" + "="*50)
+        print("🚀 LOTECA MIND BACKEND — LIVE MODE (API-Sports)")
+        print(f"Gemini AI: {'ON' if settings.GEMINI_API_KEY else 'OFF (Mocking text)'}")
+        print("="*50 + "\n")
+    else:
+        print("\n" + "!"*50)
+        print("🚧 LOTECA MIND BACKEND — MOCK MODE (Simulated Data)")
+        print("Configure FOOTBALL_API_KEY no .env para ativar dados reais.")
+        print("!"*50 + "\n")
+
+
 @app.get("/")
 async def root():
     return {

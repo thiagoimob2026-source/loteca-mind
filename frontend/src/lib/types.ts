@@ -53,6 +53,7 @@ export interface FusionResult {
   home_temperature: "on_fire" | "stable" | "cold";
   away_temperature: "on_fire" | "stable" | "cold";
   clutch_factor: number;
+  deep_analysis: string | null;
 }
 
 export interface TicketSuggestion {

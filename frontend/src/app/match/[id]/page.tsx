@@ -147,6 +147,34 @@ export default function MatchDetailPage({ params }: MatchPageProps) {
           </div>
         </div>
 
+        {/* Deep Analysis (Expert Verdict) */}
+        {fusion.deep_analysis && (
+          <div
+            className="glass-card p-6 mb-6"
+            style={{
+              background: "linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(59, 130, 246, 0.05))",
+              border: "1px solid rgba(16, 185, 129, 0.2)",
+              animation: "slide-up 0.5s ease-out 0.05s backwards",
+            }}
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-xl">🎙️</span>
+              <h3
+                className="text-sm font-bold uppercase tracking-wider"
+                style={{ color: "var(--accent-emerald)", fontFamily: "var(--font-outfit)" }}
+              >
+                Veredito do Analista
+              </h3>
+            </div>
+            <p
+              className="text-sm leading-relaxed font-medium italic"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              "{fusion.deep_analysis}"
+            </p>
+          </div>
+        )}
+
         {/* Probability Cards */}
         <div className="grid grid-cols-3 gap-3 mb-6" style={{ animation: "slide-up 0.5s ease-out 0.1s backwards" }}>
           {[
