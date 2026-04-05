@@ -242,22 +242,29 @@ export default function LoginPage() {
                     href="https://pay.kiwify.com.br/OyaEgln"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all duration-300 shadow-xl"
+                    className="w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-white font-bold transition-all duration-300 shadow-xl relative overflow-hidden group"
                     style={{ background: "linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan))" }}
                   >
-                    🛒 Assinar Plano Mensal (Acesso VIP)
+                    <div className="flex items-center gap-2">
+                       🛒 Assinar Plano Mensal
+                    </div>
+                    <span className="text-xs font-normal opacity-90 drop-shadow-sm">Apenas R$ 7,90 / mês</span>
                   </a>
+                  
                   <a
                     href="https://pay.kiwify.com.br/5Tj04gy"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all duration-300 shadow-md border"
-                    style={{ background: "transparent", borderColor: "var(--accent-emerald)", color: "var(--accent-emerald)" }}
+                    className="w-full flex flex-col items-center justify-center gap-1 py-3 rounded-xl text-emerald-600 font-bold transition-all duration-300 shadow-md border"
+                    style={{ background: "transparent", borderColor: "var(--accent-emerald)" }}
                   >
-                    🚀 Melhor Custo-Benefício: Plano Anual
+                    <div className="flex items-center gap-2">
+                      🚀 Plano Anual VIP
+                    </div>
+                    <span className="text-[0.70rem] font-medium opacity-80 uppercase tracking-widest text-emerald-800 dark:text-emerald-300">R$ 69,00 à vista (Melhor Oferta)</span>
                   </a>
                   <p className="text-[0.65rem] text-center mt-2 opacity-70" style={{ color: "var(--text-secondary)" }}>
-                    Você será redirecionado para a página segura da Kiwify. O cadastro será ativado instantaneamente.
+                    Pagamento seguro via Kiwify. O sistema desbloqueará sua conta instantaneamente.
                   </p>
                 </div>
               )}
