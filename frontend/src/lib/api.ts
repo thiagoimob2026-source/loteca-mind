@@ -46,4 +46,7 @@ export const api = {
         body: JSON.stringify({ round_number, matches }),
       }),
   },
+  auth: {
+    checkVip: (email: string) => fetchAPI<{ email: string; is_vip: boolean }>(`/api/auth/check-vip/${encodeURIComponent(email)}`),
+  },
 };

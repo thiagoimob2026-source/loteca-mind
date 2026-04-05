@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { api } from "@/lib/api";
 
 export default function LoginPage() {
   const { user, loginWithGoogle, loginWithMagicLink } = useAuth();
@@ -12,6 +13,7 @@ export default function LoginPage() {
   const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [requiresPayment, setRequiresPayment] = useState(false);
 
   // If already logged in, redirect to home
   if (user) {
@@ -20,6 +22,8 @@ export default function LoginPage() {
   }
 
   const handleGoogleLogin = async () => {
+    // Para simplificar a MVP, vamos desativar ou restringir Google Login se necessário.
+    // Opcional Futuro: Checar VIP no Google Auth também!
     setLoading(true);
     setError(null);
     await loginWithGoogle();
@@ -30,11 +34,29 @@ export default function LoginPage() {
     if (!email.trim()) return;
     setLoading(true);
     setError(null);
-    const result = await loginWithMagicLink(email);
-    if (result.success) {
-      setMagicLinkSent(true);
-    } else {
-      setError(result.error || "Erro ao enviar link");
+    setRequiresPayment(false);
+
+    try {
+      // 1. Verificar se é VIP no Banco
+      const { is_vip } = await api.auth.checkVip(email);
+      
+      if (!is_vip) {
+        setRequiresPayment(true);
+        setError("Este e-mail não possui uma assinatura Kiwify ativa.");
+        setLoading(false);
+        return;
+      }
+
+      // 2. Se for VIP, despacha o Magic Link real do Supabase
+      const result = await loginWithMagicLink(email);
+      if (result.success) {
+        setMagicLinkSent(true);
+      } else {
+        setError(result.error || "Erro ao enviar link mágico");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Falha na comunicação com os servidores. Tente novamente.");
     }
     setLoading(false);
   };
@@ -210,6 +232,24 @@ export default function LoginPage() {
               {error && (
                 <div className="p-3 rounded-lg mt-4 text-xs font-bold text-center border" style={{ backgroundColor: "rgba(218, 41, 28, 0.1)", color: "var(--accent-rose)", border: "1px solid rgba(218, 41, 28, 0.2)" }}>
                   {error}
+                </div>
+              )}
+
+              {/* Kiwify Checkout Redirect (Shown if email not VIP) */}
+              {requiresPayment && (
+                <div className="mt-6 text-center animate-fade-in">
+                  <a
+                    href="https://pay.kiwify.com.br/YOUR_PRODUCT_ID"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all duration-300 shadow-xl"
+                    style={{ background: "linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan))" }}
+                  >
+                    🛒 Assinar Agora e Liberar Acesso VIP
+                  </a>
+                  <p className="text-[0.65rem] text-center mt-2 opacity-70" style={{ color: "var(--text-secondary)" }}>
+                    Você será redirecionado para a página segura da Kiwify.
+                  </p>
                 </div>
               )}
             </>

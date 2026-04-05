@@ -90,3 +90,38 @@ async def update_user_score(user_id: str, points_earned: int, correct_count: int
             supabase.table("profiles").update(data).eq("id", user_id).execute()
     except Exception as e:
         print(f"[Supabase] Error updating user score: {e}")
+
+async def add_vip_user(email: str) -> bool:
+    """Insere ou atualiza um e-mail na tabela de VIPs após pagamento Kiwify."""
+    if not supabase:
+        print("[Supabase VIP] MODO DE TESTE: VIP concedido na memória para", email)
+        return True
+    
+    try:
+        # Se a tabela vip_users existir, cadastra
+        # UPSERT logic: Insert or update if email exists
+        data = {
+            "email": email,
+            "status": "active",
+        }
+        supabase.table("vip_users").upsert(data, on_conflict="email").execute()
+        return True
+    except Exception as e:
+        print(f"[Supabase VIP] Erro ao salvar VIP. Tabela vip_users existe? {e}")
+        return False
+
+async def check_vip_status(email: str) -> bool:
+    """Verifica se o e-mail consta como VIP (pago)."""
+    if not supabase:
+        print("[Supabase VIP] MODO DE TESTE: VIP check retornado como True para", email)
+        return True
+    
+    try:
+        response = supabase.table("vip_users").select("status").eq("email", email).execute()
+        if response.data and response.data[0]["status"] == "active":
+            return True
+        return False
+    except Exception as e:
+        print(f"[Supabase VIP] Erro ao checar VIP: {e}")
+        # Se falhar ou tabela não existir, por segurança não loga
+        return False
