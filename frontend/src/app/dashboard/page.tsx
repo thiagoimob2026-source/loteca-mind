@@ -23,20 +23,28 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loadPrediction = async () => {
+  const loadPrediction = async (retryCount = 0) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await api.predictions.analyze();
+      // Tenta obter a última análise em cache antes de rodar uma nova
+      const data = await api.predictions.latest();
       setPrediction(data);
       if (data && data.round_number) {
-        setAdminRound(data.round_number); // Sync admin round
+        setAdminRound(data.round_number);
       }
     } catch (err) {
-      setError("Não foi possível conectar ao engine. Verifique se o backend está rodando.");
-      console.error(err);
+      if (retryCount < 2) {
+        // Render pode estar acordando — avisa e tenta de novo em 15s
+        setError(`⏳ Servidor acordando... aguarde (tentativa ${retryCount + 1}/3)`);
+        setTimeout(() => loadPrediction(retryCount + 1), 15000);
+      } else {
+        setError("Não foi possível conectar ao engine. Tente clicar em 'Recriar Análise' manualmente.");
+        console.error(err);
+        setLoading(false);
+      }
     } finally {
-      setLoading(false);
+      if (retryCount === 0 || retryCount >= 2) setLoading(false);
     }
   };
 
