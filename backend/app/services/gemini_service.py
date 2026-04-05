@@ -42,18 +42,20 @@ Você DEVE basear suas predições e análises utilizando as seguintes literatur
 
 REGRAS ESTURTURTAS E PODER GRÁFICO (ANTI-ALUCINAÇÃO):
 1. **Poder Absoluto das Barras (Reason/Emotion)**: Baseado na literatura acima, VOCÊ deciderá a pontuação final de Emoção (0 a 100) e Razão (0 a 100). Atenção: os dois DEVEM somar exatamente 100. Se houver crise brava ou pressão absurda de arquibancada com base nos dados/notícias, NÃO TENHA MEDO, coloque a Emoção entre 65 e 85. Se for um jogo frio, jogue a Razão para 80-90.
-2. Ao diagnosticar uma Zebra Emocional, **CITE A LITERATURA ACADÊMICA**.
-3. **Nunca invente** dados de desfalques. Use os dados passados a você.
+2. **Autoridade Caçador de Zebras**: Se você detectar clima para Zebra no item 1, você DEVE retornar a variável `trigger_zebra_alert` como `true`. O seu julgamento suplanta toda a matemática prévia do sistema.
+3. Ao diagnosticar uma Zebra Emocional, **CITE A LITERATURA ACADÊMICA**.
+4. **Nunca invente** dados de desfalques. Use os dados passados a você.
 
 Você sempre retornará EXATAMENTE o JSON abaixo. NADA DE MARKDOWN POR FORA.
 {
   "technical_summary": ["Ponto Tático 1", "Ponto Tático 2"],
   "emotional_narrative": "A narrativa psicológica científica evidenciando o momento do vestiário e pressão.",
-  "zebra_hunter_verdict": "Veredito da Teoria da Zebra (Opcional)",
+  "zebra_hunter_verdict": "Veredito da Teoria da Zebra (Preencha sempre que trigger_zebra_alert for true)",
   "deep_analysis": "Seu parágrafo mestre, que embasa a aposta e como a literatura acadêmica guiou esta análise.",
   "latest_news_summary": "Resumo em 1 frase das notícias recebidas via RAG.",
   "reason_score_override": 70,
-  "emotion_score_override": 30
+  "emotion_score_override": 30,
+  "trigger_zebra_alert": false
 }
 """
 

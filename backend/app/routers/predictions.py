@@ -56,6 +56,10 @@ async def analyze_round(target_budget: float = 49.90, use_ai: bool = True):
                 fusion_result.emotional_factors = [ai_insight.get("emotional_narrative", "")]
                 fusion_result.deep_analysis = ai_insight.get("deep_analysis")
                 
+                # RAG Zebra Override
+                if ai_insight.get("trigger_zebra_alert"):
+                    fusion_result.zebra_alert = True
+                
                 if fusion_result.zebra_alert:
                     fusion_result.zebra_insight = ai_insight.get("zebra_hunter_verdict", fusion_result.zebra_insight)
                 
