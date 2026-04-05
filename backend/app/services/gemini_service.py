@@ -91,24 +91,26 @@ async def generate_match_analysis(
     - Fatores: {psi_data.get('emotional_factors')}
     """
 
-    # --- INJEÇÃO RAG EM TEMPO REAL ---
-    import time
+    # --- INJEÇÃO RAG EM TEMPO REAL (Async Friendly) ---
     print(f"[GeminiService] Sondando internet para {match.home_team.name} vs {match.away_team.name}...")
-    live_news = fetch_latest_match_news(match.home_team.name, match.away_team.name)
+    # News scraper é síncrono, rodamos em thread para não bloquear o loop de 14 jogos
+    live_news = await asyncio.to_thread(fetch_latest_match_news, match.home_team.name, match.away_team.name)
+    
     if live_news:
         context_prompt += f"\n\nNOTÍCIAS DA INTERNET (Últimas 24-48h):\nResuma rigorosamente isto:\n{live_news}\n"
     else:
         context_prompt += f"\n\nNOTÍCIAS DA INTERNET:\nNenhuma informação recente encontrada.\n"
 
-    models_to_try = ["gemini-2.5-flash"]
+    # Modelos estáveis (1.5-flash é o mais rápido e gratuito)
+    models_to_try = ["gemini-1.5-flash", "gemini-1.5-pro"]
     
     for model_name in models_to_try:
         max_retries = 2
-        retry_delay = 30
+        retry_delay = 5
 
         for attempt in range(max_retries):
             try:
-                print(f"[GeminiService] Tentando análise com {model_name}...")
+                print(f"[GeminiService] Analisando {match.home_team.name} com {model_name}...")
                 response = client.models.generate_content(
                     model=model_name,
                     contents=context_prompt,

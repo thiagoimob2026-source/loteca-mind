@@ -31,11 +31,8 @@ async def analyze_round(target_budget: float = 49.90, use_ai: bool = True):
     """
     global _latest_prediction
 
-    matches = await get_current_matches()
-    fusions = []
-
-    for match in matches:
-        # 1-3. Run agents
+    async def analyze_single_match(match, use_ai):
+        # 1-3. Run agents (Alpha/Psi are currently synchronous, considering to thread them if needed)
         alpha_result = alpha.analyze(match)
         psi_result = psi.analyze(match)
         
@@ -45,7 +42,7 @@ async def analyze_round(target_budget: float = 49.90, use_ai: bool = True):
         # 5. Gemini AI Insight (Service for the Site)
         if use_ai:
             ai_insight = await gemini_service.generate_match_analysis(
-                match, # Pass full match object
+                match, 
                 alpha_data=alpha_result.model_dump(),
                 psi_data=psi_result.model_dump()
             )
@@ -67,8 +64,11 @@ async def analyze_round(target_budget: float = 49.90, use_ai: bool = True):
                 if "reason_score_override" in ai_insight and "emotion_score_override" in ai_insight:
                     fusion_result.reason_score = float(ai_insight["reason_score_override"])
                     fusion_result.emotion_score = float(ai_insight["emotion_score_override"])
+        return fusion_result
 
-        fusions.append(fusion_result)
+    # Run ALL 14 match analyses IN PARALLEL to avoid Render Timeouts
+    tasks = [analyze_single_match(m, use_ai) for m in matches]
+    fusions = await asyncio.gather(*tasks)
 
     # 6. Optimize ticket
     strategy = optimize(fusions, target_budget=target_budget)
