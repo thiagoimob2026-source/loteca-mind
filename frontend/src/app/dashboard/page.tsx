@@ -166,7 +166,7 @@ export default function HomePage() {
             <br />
             <button
               id="generate-analysis-btn"
-              onClick={loadPrediction}
+              onClick={() => loadPrediction()}
               disabled={loading}
               className="btn-primary"
               style={{ opacity: loading ? 0.6 : 1, minWidth: "240px", background: "var(--accent-amber)", color: "#1a1a1a" }}
