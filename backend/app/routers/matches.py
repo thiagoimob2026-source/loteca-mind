@@ -6,7 +6,6 @@ Tries real API-Football data first, falls back to mock data.
 from fastapi import APIRouter
 
 from app.services.data_service import get_current_matches
-from app.services.football_api import fetch_real_matches
 
 router = APIRouter(prefix="/api/matches", tags=["matches"])
 
