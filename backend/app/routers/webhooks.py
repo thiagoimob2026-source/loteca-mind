@@ -23,20 +23,19 @@ async def kiwify_webhook(payload: Dict[Any, Any], request: Request):
         # A Kiwify envia os dados dentro de 'order' e 'Customer' ou variáveis primárias
         # Vamos fazer um fallback de chaves caso varie na documentação
         
-        order_status = payload.get("order", {}).get("status") 
-        customer_email = payload.get("Customer", {}).get("email")
-        
-        # Fallback de teste (quando testamos o Payload pela Interface da Kiwify)
-        if not order_status:
-            order_status = payload.get("status")
-        if not customer_email:
-            customer_email = payload.get("email")
+        # O Kiwify Test Payload geralmente vem "flat", enquanto o Real vem aninhado.
+        order_status = payload.get("order_status") or payload.get("status") or payload.get("order", {}).get("status")
+        customer_email = payload.get("email") or payload.get("Customer", {}).get("email") or payload.get("customer", {}).get("email")
+
+        # Log total para diagnóstico
+        print(f"[Webhook Kiwify Payload Recebido]: {payload}")
 
         if not customer_email:
             print("[Webhook Kiwify] Payload ignorado: Falta e-mail do cliente.")
             return {"status": "ignored", "reason": "No email"}
 
-        if order_status in ["paid", "approved", "completed"]:
+        # Se for teste da plataforma ou venda confirmada
+        if order_status in ["paid", "approved", "completed", "test"]:
             # Liberar o sistema (Cadastra ou renova o passe VIP)
             success = await supabase_service.add_vip_user(customer_email.lower())
             if success:
