@@ -36,39 +36,13 @@ export default function LoginPage() {
     setError(null);
     setRequiresPayment(false);
 
-    try {
-      // 1. Verificar se é VIP no Banco (com timeout de 6s para o Render acordar)
-      let is_vip = false;
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 6000);
-        const { is_vip: vipResult } = await api.auth.checkVip(email);
-        clearTimeout(timeout);
-        is_vip = vipResult;
-      } catch (vipErr) {
-        // Se o Render estiver dormindo e demorar demais, assumimos que pode ser VIP
-        // e deixamos o Supabase decidir se o e-mail é válido
-        console.warn("VIP check timeout — prosseguindo com Magic Link");
-        is_vip = true;
-      }
-      
-      if (!is_vip) {
-        setRequiresPayment(true);
-        setError("Este e-mail não possui uma assinatura Kiwify ativa.");
-        setLoading(false);
-        return;
-      }
-
-      // 2. Se for VIP, despacha o Magic Link real do Supabase
-      const result = await loginWithMagicLink(email);
-      if (result.success) {
-        setMagicLinkSent(true);
-      } else {
-        setError(result.error || "Erro ao enviar link mágico");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("Falha na comunicação com os servidores. Tente novamente.");
+    // Envia o Magic Link diretamente via Supabase (sem passar pelo Render)
+    // A verificação VIP é feita no dashboard após o login
+    const result = await loginWithMagicLink(email);
+    if (result.success) {
+      setMagicLinkSent(true);
+    } else {
+      setError(result.error || "Erro ao enviar link mágico");
     }
     setLoading(false);
   };
