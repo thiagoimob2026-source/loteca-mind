@@ -83,9 +83,10 @@ export default function HomePage() {
   useEffect(() => {
     const checkUserVip = async () => {
       if (user?.email) {
-        // Admin sempre é VIP
+        // Admin sempre é VIP e tem painel Admin
         if (user.email === "thiagoimob2026@gmail.com") {
           setIsVip(true);
+          setIsAdmin(true);
           return;
         }
 
@@ -203,7 +204,7 @@ export default function HomePage() {
                   Rodando RAG e IA...
                 </span>
               ) : (
-                "⚡ Recriar Nova Análise Completa"
+                "⚡ Gerar Nova Análise (RAG + API Real)"
               )}
             </button>
             <div className="mt-3">
@@ -214,7 +215,7 @@ export default function HomePage() {
                 }}
                 className="text-xs text-amber-500 font-bold underline cursor-pointer hover:text-amber-400"
               >
-                {showAdminEditor ? "Fechar Editor de Grade" : "✏️ Editar Times do Próximo Concurso"}
+                {showAdminEditor ? "Fechar Editor" : "✏️ Inserir Novo Concurso / Grade"}
               </button>
             </div>
             
