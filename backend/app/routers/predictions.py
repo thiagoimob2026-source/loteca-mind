@@ -31,40 +31,50 @@ async def analyze_round(target_budget: float = 49.90, use_ai: bool = True):
     """
     global _latest_prediction
 
+    # Controle de concorrência para evitar bloqueios de API (Rate Limit)
+    # Processa 3 jogos de cada vez em paralelo, em vez de 14 de uma vez.
+    semaphore = asyncio.Semaphore(3)
+
     async def analyze_single_match(match, use_ai):
-        # 1-3. Run agents (Alpha/Psi are currently synchronous, considering to thread them if needed)
-        alpha_result = alpha.analyze(match)
-        psi_result = psi.analyze(match)
-        
-        # 4. Fuse
-        fusion_result = fuse(match, alpha_result, psi_result)
-        
-        # 5. Gemini AI Insight (Service for the Site)
-        if use_ai:
-            ai_insight = await gemini_service.generate_match_analysis(
-                match, 
-                alpha_data=alpha_result.model_dump(),
-                psi_data=psi_result.model_dump()
-            )
+        async with semaphore:
+            # 1-3. Run agents
+            alpha_result = alpha.analyze(match)
+            psi_result = psi.analyze(match)
             
-            if ai_insight:
-                # Update fusion result with premium AI text
-                fusion_result.key_factors = ai_insight.get("technical_summary", fusion_result.key_factors)
-                fusion_result.emotional_factors = [ai_insight.get("emotional_narrative", "")]
-                fusion_result.deep_analysis = ai_insight.get("deep_analysis")
-                
-                # RAG Zebra Override
-                if ai_insight.get("trigger_zebra_alert"):
-                    fusion_result.zebra_alert = True
-                
-                if fusion_result.zebra_alert:
-                    fusion_result.zebra_insight = ai_insight.get("zebra_hunter_verdict", fusion_result.zebra_insight)
-                
-                # RAG Override for Visual Gauges
-                if "reason_score_override" in ai_insight and "emotion_score_override" in ai_insight:
-                    fusion_result.reason_score = float(ai_insight["reason_score_override"])
-                    fusion_result.emotion_score = float(ai_insight["emotion_score_override"])
-        return fusion_result
+            # 4. Fuse
+            fusion_result = fuse(match, alpha_result, psi_result)
+            
+            # 5. Gemini AI Insight
+            if use_ai:
+                try:
+                    ai_insight = await gemini_service.generate_match_analysis(
+                        match, 
+                        alpha_data=alpha_result.model_dump(),
+                        psi_data=psi_result.model_dump()
+                    )
+                    
+                    if ai_insight:
+                        # Update fusion result with premium AI text
+                        fusion_result.key_factors = ai_insight.get("technical_summary", fusion_result.key_factors)
+                        fusion_result.emotional_factors = [ai_insight.get("emotional_narrative", "")]
+                        fusion_result.deep_analysis = ai_insight.get("deep_analysis")
+                        
+                        # RAG Zebra Override
+                        if ai_insight.get("trigger_zebra_alert"):
+                            fusion_result.zebra_alert = True
+                        
+                        if fusion_result.zebra_alert:
+                            fusion_result.zebra_insight = ai_insight.get("zebra_hunter_verdict", fusion_result.zebra_insight)
+                        
+                        # RAG Override for Visual Gauges
+                        if "reason_score_override" in ai_insight and "emotion_score_override" in ai_insight:
+                            fusion_result.reason_score = float(ai_insight["reason_score_override"])
+                            fusion_result.emotion_score = float(ai_insight["emotion_score_override"])
+                except Exception as ai_err:
+                    print(f"[Predictions] Erro na análise IA do jogo {match.id}: {ai_err}")
+                    # Mantém o fusion_result tático original
+            
+            return fusion_result
 
     # Run ALL 14 match analyses IN PARALLEL to avoid Render Timeouts
     tasks = [analyze_single_match(m, use_ai) for m in matches]

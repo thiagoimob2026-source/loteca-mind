@@ -16,13 +16,13 @@ API_HOST = os.getenv("FOOTBALL_API_HOST", "v3.football.api-sports.io")
 BASE_URL = f"https://{API_HOST}"
 
 # Configurações de Preferência (Lotequeiro curte estas ligas)
-PREFERENCE_LEAGUES = [71, 13, 11, 128, 239, 268] # Brasil A, Liberta, Sula, Arg, Col, Peru
-CURRENT_SEASON = 2026
-
-# Cache simples em memória
+# Cache de Respostas da API (TTL de 3 horas)
 _cache: dict = {}
 _cache_ttl: dict = {}
 CACHE_DURATION = timedelta(hours=3)
+
+# Cache persistente de IDs de times para evitar buscas repetidas
+_TEAM_ID_CACHE: dict = {}
 
 def _is_cached(key: str) -> bool:
     if key in _cache and key in _cache_ttl:
@@ -31,6 +31,9 @@ def _is_cached(key: str) -> bool:
 
 async def _api_request(endpoint: str, params: dict = {}) -> Optional[dict]:
     """Faz request à API-Football com cache."""
+    cache_key = f"{endpoint}:{str(params)}"
+    if _is_cached(cache_key):
+        return _cache[cache_key]
     cache_key = f"{endpoint}:{str(params)}"
     if _is_cached(cache_key):
         return _cache[cache_key]
@@ -64,6 +67,10 @@ async def search_team(team_name: str) -> Optional[int]:
     """
     if not team_name: return None
     
+    # 0. Check Cache
+    if team_name in _TEAM_ID_CACHE:
+        return _TEAM_ID_CACHE[team_name]
+
     clean_name = team_name.split("-")[0].strip() # Trata "Cusco-Per" -> "Cusco"
     data = await _api_request("teams", {"search": clean_name})
     
@@ -96,7 +103,9 @@ async def search_team(team_name: str) -> Optional[int]:
     
     for c in candidates:
         if c["team"]["name"] == best_match_name:
-            return c["team"]["id"]
+            team_id = c["team"]["id"]
+            _TEAM_ID_CACHE[team_name] = team_id # Salva o ID original da pesquisa
+            return team_id
             
     return None
 

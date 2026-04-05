@@ -128,18 +128,18 @@ async def generate_match_analysis(
             except Exception as e:
                 error_str = str(e).lower()
                 if "429" in error_str:
-                    print(f"[GeminiService] Rate limit no {model_name}. Aguardando {retry_delay}s...")
+                    print(f"[GeminiService] Rate limit no {model_name} (Sinalizando tentativa {attempt+1}/{max_retries})...")
                     time.sleep(retry_delay)
-                    retry_delay *= 2
                     continue
-                elif "404" in error_str:
-                    print(f"[GeminiService] Modelo {model_name} não encontrado. Pulando...")
-                    break # Try next model
+                elif "503" in error_str:
+                    print(f"[GeminiService] Modelo {model_name} temporariamente indisponível. Pulando...")
+                    break
                 
                 print(f"[GeminiService] Erro inesperado no {model_name}: {e}")
-                break # Try next model
+                break # Tenta o próximo modelo
                 
-    return None
+    # Fallback final caso o Gemini falhe completamente
+    return get_placeholder_insights(f"{match.home_team.name} vs {match.away_team.name}", psi_data.get('zebra_alert', False))
 
 def get_placeholder_insights(match_name: str, zebra_alert: bool) -> Dict:
     return {
