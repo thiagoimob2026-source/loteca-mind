@@ -18,6 +18,14 @@ async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> 
   return res.json();
 }
 
+// 🔴 Keep-Alive: Pinga o Render a cada 14 minutos para ele não dormir
+// Garante que webhooks da Kiwify nunca sejam perdidos
+if (typeof window !== "undefined") {
+  const pingRender = () => fetch(`${API_BASE}/health`).catch(() => {});
+  pingRender(); // Pinga imediatamente ao carregar qualquer página
+  setInterval(pingRender, 14 * 60 * 1000); // Depois a cada 14 minutos
+}
+
 export const api = {
   matches: {
     list: () => fetchAPI<import("./types").MatchesResponse>("/api/matches"),
