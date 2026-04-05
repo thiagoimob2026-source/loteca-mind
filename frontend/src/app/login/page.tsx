@@ -237,18 +237,27 @@ export default function LoginPage() {
 
               {/* Kiwify Checkout Redirect (Shown if email not VIP) */}
               {requiresPayment && (
-                <div className="mt-6 text-center animate-fade-in">
+                <div className="mt-6 text-center animate-fade-in flex flex-col gap-3">
                   <a
-                    href="https://pay.kiwify.com.br/YOUR_PRODUCT_ID"
+                    href="https://pay.kiwify.com.br/OyaEgln"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all duration-300 shadow-xl"
                     style={{ background: "linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan))" }}
                   >
-                    🛒 Assinar Agora e Liberar Acesso VIP
+                    🛒 Assinar Plano Mensal (Acesso VIP)
+                  </a>
+                  <a
+                    href="https://pay.kiwify.com.br/5Tj04gy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold transition-all duration-300 shadow-md border"
+                    style={{ background: "transparent", borderColor: "var(--accent-emerald)", color: "var(--accent-emerald)" }}
+                  >
+                    🚀 Melhor Custo-Benefício: Plano Anual
                   </a>
                   <p className="text-[0.65rem] text-center mt-2 opacity-70" style={{ color: "var(--text-secondary)" }}>
-                    Você será redirecionado para a página segura da Kiwify.
+                    Você será redirecionado para a página segura da Kiwify. O cadastro será ativado instantaneamente.
                   </p>
                 </div>
               )}
