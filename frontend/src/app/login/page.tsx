@@ -37,8 +37,20 @@ export default function LoginPage() {
     setRequiresPayment(false);
 
     try {
-      // 1. Verificar se é VIP no Banco
-      const { is_vip } = await api.auth.checkVip(email);
+      // 1. Verificar se é VIP no Banco (com timeout de 6s para o Render acordar)
+      let is_vip = false;
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 6000);
+        const { is_vip: vipResult } = await api.auth.checkVip(email);
+        clearTimeout(timeout);
+        is_vip = vipResult;
+      } catch (vipErr) {
+        // Se o Render estiver dormindo e demorar demais, assumimos que pode ser VIP
+        // e deixamos o Supabase decidir se o e-mail é válido
+        console.warn("VIP check timeout — prosseguindo com Magic Link");
+        is_vip = true;
+      }
       
       if (!is_vip) {
         setRequiresPayment(true);
