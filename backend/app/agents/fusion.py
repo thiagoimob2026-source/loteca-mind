@@ -23,7 +23,7 @@ def fuse(match: MatchData, alpha: AlphaOutput, psi: PsiOutput) -> FusionResult:
     if vol > 60:
         emotion_weight = 0.25 + (vol - 60) * 0.004  # Up to 0.41
     elif vol < 30:
-        emotion_weight = 0.10
+        emotion_weight = 0.10 + (vol * 0.002)  # Dynamically varies between 10% and 16%
     else:
         emotion_weight = 0.15 + (vol - 30) * 0.003  # 0.15 to 0.24
 

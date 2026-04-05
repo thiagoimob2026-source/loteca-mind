@@ -39,4 +39,11 @@ export const api = {
     badges: (userId: string) =>
       fetchAPI<{ user_id: string; badges: import("./types").Badge[] }>(`/api/leaderboard/badges/${userId}`),
   },
+  admin: {
+    updateConcurso: (round_number: number, matches: [string, string][]) =>
+      fetchAPI<{ status: string; message: string }>("/api/admin/concurso", {
+        method: "POST",
+        body: JSON.stringify({ round_number, matches }),
+      }),
+  },
 };

@@ -54,6 +54,7 @@ export interface FusionResult {
   away_temperature: "on_fire" | "stable" | "cold";
   clutch_factor: number;
   deep_analysis: string | null;
+  latest_news_summary?: string | null;
 }
 
 export interface TicketSuggestion {
@@ -82,7 +83,8 @@ export interface LotecaPrediction {
   competition: string;
   fusions: FusionResult[];
   strategy: StrategistOutput;
-  analysis_summary: string | null;
+  zebra_hunter_verdict: string | null;
+  deep_analysis: string;
   generated_at: string;
 }
 

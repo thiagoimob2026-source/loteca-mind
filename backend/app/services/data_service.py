@@ -156,10 +156,16 @@ async def get_current_matches() -> list[MatchData]:
     Priority 3 - Fallback to Team Profiles (Mock)
     """
     manual_grid = []
+    concurso_round = 10  # fallback
     if os.path.exists(CONCURSO_FILE):
         try:
             with open(CONCURSO_FILE, "r", encoding="utf-8") as f:
-                manual_grid = json.load(f)
+                data = json.load(f)
+                if isinstance(data, dict) and "matches" in data:
+                    manual_grid = data["matches"]
+                    concurso_round = data.get("round_number", 10)
+                elif isinstance(data, list):
+                    manual_grid = data
         except Exception as e:
             print(f"[DataService] Erro ao ler concurso.json: {e}")
 
@@ -194,24 +200,25 @@ async def get_current_matches() -> list[MatchData]:
                 # Use real data but preserve the manual ID (1-14)
                 match = resolved_match.model_copy()
                 match.id = i + 1
+                match.round_number = concurso_round # Inject the proper contest number
                 matches.append(match)
             else:
                 # Use mock profile for this specific pair
-                matches.append(_build_manual_match(i + 1, home_name, away_name))
+                matches.append(_build_manual_match(i + 1, home_name, away_name, concurso_round))
         
         print(f"[DataService] Grade de 14 jogos carregada (Manual + API Enrichment) 🚀")
         return matches
 
     except Exception as e:
         print(f"[DataService] API Error during enrichment: {e}. Servindo grade manual pura.")
-        return [_build_manual_match(i + 1, h, a) for i, (h, a) in enumerate(manual_grid)]
+        return [_build_manual_match(i + 1, h, a, concurso_round) for i, (h, a) in enumerate(manual_grid)]
 
 
-def _build_manual_match(id: int, home_name: str, away_name: str) -> MatchData:
+def _build_manual_match(id: int, home_name: str, away_name: str, round_num: int = 10) -> MatchData:
     """Build a match from team names using local profiles (Fallback)."""
     return MatchData(
         id=id,
-        round_number=10, # Current competition round
+        round_number=round_num, # Current competition round
         competition="Loteca (Official Selection)",
         home_team=_build_team_mock(home_name),
         away_team=_build_team_mock(away_name),

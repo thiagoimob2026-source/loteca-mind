@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 
 const NAV_ITEMS = [
-  { href: "/", label: "The Hub", icon: "🏠" },
+  { href: "/dashboard", label: "Central", icon: "🏠" },
   { href: "/leaderboard", label: "Ranking", icon: "🏆" },
 ];
 
@@ -27,7 +27,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/dashboard" className="flex items-center gap-3 group">
             <div
               className="w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold"
               style={{
@@ -43,10 +43,10 @@ export default function Navbar() {
                 style={{ fontFamily: "var(--font-outfit)", color: "var(--text-primary)" }}
               >
                 Loteca{" "}
-                <span className="text-gradient">Mind</span>
+                <span className="text-gradient">Zebra 14</span>
               </span>
               <div className="text-[0.55rem] -mt-0.5" style={{ color: "var(--text-muted)" }}>
-                Data-to-Dopamine
+                Apostas Inteligentes
               </div>
             </div>
           </Link>
@@ -84,7 +84,7 @@ export default function Navbar() {
                 }}
               />
               <span className="text-xs hidden sm:inline" style={{ color: "var(--text-secondary)" }}>
-                Engine Online
+                Motor Online
               </span>
             </div>
 

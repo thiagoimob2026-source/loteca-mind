@@ -16,11 +16,11 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Loteca Mind — IA + Psicologia Esportiva",
+  title: "Loteca Zebra 14 — IA + Psicologia Esportiva",
   description:
     "Plataforma de previsão da Loteca Brasileira combinando Ciência de Dados e Psicologia Esportiva. Análise dos 14 jogos com inteligência artificial.",
-  keywords: ["loteca", "previsão", "futebol", "xG", "psicologia esportiva", "IA"],
-  authors: [{ name: "Loteca Mind" }],
+  keywords: ["loteca", "previsão", "futebol", "xG", "psicologia esportiva", "IA", "zebra 14"],
+  authors: [{ name: "Loteca Zebra 14" }],
 };
 
 export const viewport: Viewport = {

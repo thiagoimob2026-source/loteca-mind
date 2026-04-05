@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
-from app.routers import matches, predictions, leaderboard
+from app.routers import matches, predictions, leaderboard, admin
 
 settings = get_settings()
 
@@ -34,6 +34,7 @@ app.add_middleware(
 app.include_router(matches.router)
 app.include_router(predictions.router)
 app.include_router(leaderboard.router)
+app.include_router(admin.router)
 
 
 @app.on_event("startup")
@@ -56,7 +57,7 @@ async def root():
         "app": settings.APP_NAME,
         "version": "1.0.0",
         "status": "online",
-        "message": "Loteca Mind API — Data-to-Dopamine Engine 🧠⚽",
+        "message": "Loteca Zebra 14 API — Data-to-Dopamine Engine 🧠⚽",
     }
 
 

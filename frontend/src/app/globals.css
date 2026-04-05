@@ -76,6 +76,22 @@
   --font-outfit: 'Outfit', sans-serif;
 }
 
+/* ===== CAIXA LOTECA THEME OVERRIDE ===== */
+.theme-caixa {
+  /* Caixa Official Colors */
+  --accent-emerald: #009B3A; /* Verde Campo */
+  --accent-emerald-dim: #007A2D;
+  --accent-cyan: #005CA9; /* Azul Caixa */
+  --accent-amber: #F39200; /* Laranja Caixa */
+  --accent-rose: #DA291C; /* Vermelho Loteca */
+  --accent-violet: #8B0000; /* Vermelho Escuro (Zebras) */
+  --accent-blue: #005CA9;
+  
+  --gradient-hero: linear-gradient(135deg, #009B3A 0%, #005CA9 50%, #DA291C 100%);
+  --gradient-reason: linear-gradient(90deg, #005CA9, #009B3A);
+  --gradient-emotion: linear-gradient(90deg, #DA291C, #F39200);
+}
+
 /* ===== BASE STYLES ===== */
 body {
   background: var(--bg-primary);

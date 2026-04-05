@@ -16,12 +16,9 @@ export default function ZebraHunter({ fusions }: ZebraHunterProps) {
       <div className="flex items-center gap-3 mb-4">
         <span className="text-3xl" style={{ animation: "float 2s ease-in-out infinite" }}>🦓</span>
         <div>
-          <h2
-            className="text-lg font-bold"
-            style={{ fontFamily: "var(--font-outfit)", color: "var(--text-primary)" }}
-          >
-            Zebra Hunter
-          </h2>
+          <h3 className="text-lg font-bold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-outfit)" }}>
+            Caçador de Zebras
+          </h3>
           <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
             Onde a estatística diz uma coisa, mas o vestiário diz outra
           </p>

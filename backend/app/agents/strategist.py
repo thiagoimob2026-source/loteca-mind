@@ -9,7 +9,7 @@ from app.models.prediction import FusionResult, TicketSuggestion, StrategistOutp
 
 
 # Loteca pricing: base cost per combination
-LOTECA_BASE_BET = 3.00  # R$ per simple bet (14 simples)
+LOTECA_BASE_BET = 4.00  # R$ per simple bet (14 simples)
 
 
 def _classify_bet(confidence: float, fusion: FusionResult) -> tuple[list[str], str]:

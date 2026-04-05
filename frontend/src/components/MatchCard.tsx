@@ -54,6 +54,7 @@ export default function MatchCard({ fusion, suggestion, index, onClick }: MatchC
             JOGO {fusion.match_id}
           </span>
           {fusion.zebra_alert && <span className="tag tag-zebra">🦓 ZEBRA</span>}
+          {index < 5 && <span className="tag tag-high" style={{ background: "transparent", border: "1px solid var(--accent-emerald)" }}>🔍 DETALHADO</span>}
         </div>
         <div className="flex items-center gap-2">
           {suggestion && <BetTypeTag type={suggestion.bet_type} />}
@@ -88,112 +89,146 @@ export default function MatchCard({ fusion, suggestion, index, onClick }: MatchC
         </div>
       </div>
 
-      {/* Probability Bars */}
-      <div className="grid grid-cols-3 gap-2 mb-4">
-        {[
-          { label: "1", prob: fusion.home_win_prob, color: "var(--accent-emerald)" },
-          { label: "X", prob: fusion.draw_prob, color: "var(--accent-amber)" },
-          { label: "2", prob: fusion.away_win_prob, color: "var(--accent-cyan)" },
-        ].map((item) => (
-          <div key={item.label} className="text-center">
-            <div
-              className="text-xs font-bold mb-1"
-              style={{
-                color: item.prob === maxProb ? item.color : "var(--text-secondary)",
+      {/* Paywall Logic for Matches 6-14 (index 5-13) */}
+      {index >= 5 ? (
+        <div className="relative mt-4">
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4 bg-white/60 backdrop-blur-[4px] rounded-lg border border-slate-200">
+            <div className="text-2xl mb-2">🔒</div>
+            <p className="text-sm font-bold text-slate-800 text-center mb-3">Análise Premium</p>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                window.location.href = "/login";
               }}
+              className="bg-[#DA291C] text-white text-xs font-bold px-4 py-2 rounded shadow-md hover:bg-[#8B0000] transition-colors"
             >
-              {item.label}
+              Assinar para Desbloquear
+            </button>
+          </div>
+          {/* Blurred Placeholder Content */}
+          <div className="opacity-30 pointer-events-none select-none filter blur-[2px]">
+            {/* Probability Bars Placeholder */}
+            <div className="grid grid-cols-3 gap-2 mb-4">
+              <div className="text-center"><div className="progress-bar mb-1"><div className="progress-fill" style={{ width: "33%" }}/></div><div className="text-xs">33%</div></div>
+              <div className="text-center"><div className="progress-bar mb-1"><div className="progress-fill" style={{ width: "33%" }}/></div><div className="text-xs">33%</div></div>
+              <div className="text-center"><div className="progress-bar mb-1"><div className="progress-fill" style={{ width: "33%" }}/></div><div className="text-xs">33%</div></div>
             </div>
-            <div className="progress-bar">
+            {/* Balance Bar Placeholder */}
+            <div className="mb-3">
+              <div className="flex h-[5px] rounded-full overflow-hidden bg-slate-200" />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Probability Bars (Only for Unlocked) */}
+          <div className="grid grid-cols-3 gap-2 mb-4">
+            {[
+              { label: "1", prob: fusion.home_win_prob, color: "var(--accent-emerald)" },
+              { label: "X", prob: fusion.draw_prob, color: "var(--accent-amber)" },
+              { label: "2", prob: fusion.away_win_prob, color: "var(--accent-cyan)" },
+            ].map((item) => (
+              <div key={item.label} className="text-center">
+                <div
+                  className="text-xs font-bold mb-1"
+                  style={{
+                    color: item.prob === maxProb ? item.color : "var(--text-secondary)",
+                  }}
+                >
+                  {item.label}
+                </div>
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{
+                      width: `${item.prob * 100}%`,
+                      background:
+                        item.prob === maxProb
+                          ? item.color
+                          : "var(--text-muted)",
+                    }}
+                  />
+                </div>
+                <div
+                  className="text-xs mt-1 font-semibold"
+                  style={{
+                    color: item.prob === maxProb ? item.color : "var(--text-muted)",
+                  }}
+                >
+                  {(item.prob * 100).toFixed(0)}%
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Balance Bar (Razão vs Emoção) */}
+          <div className="mb-3">
+            <div className="flex justify-between text-[0.65rem] font-semibold mb-1">
+              <span style={{ color: "var(--accent-blue)" }}>
+                RAZÃO {fusion.reason_score.toFixed(0)}%
+              </span>
+              <span style={{ color: "var(--accent-rose)" }}>
+                {fusion.emotion_score.toFixed(0)}% EMOÇÃO
+              </span>
+            </div>
+            <div className="flex h-[5px] rounded-full overflow-hidden" style={{ background: "var(--bg-elevated)" }}>
               <div
-                className="progress-fill"
+                className="h-full transition-all duration-700"
                 style={{
-                  width: `${item.prob * 100}%`,
-                  background:
-                    item.prob === maxProb
-                      ? item.color
-                      : "var(--text-muted)",
+                  width: `${fusion.reason_score}%`,
+                  background: "var(--gradient-reason)",
+                }}
+              />
+              <div
+                className="h-full transition-all duration-700"
+                style={{
+                  width: `${fusion.emotion_score}%`,
+                  background: "var(--gradient-emotion)",
                 }}
               />
             </div>
+          </div>
+
+          {/* Suggested Column */}
+          {suggestion && (
             <div
-              className="text-xs mt-1 font-semibold"
-              style={{
-                color: item.prob === maxProb ? item.color : "var(--text-muted)",
-              }}
+              className="flex items-center justify-between pt-3"
+              style={{ borderTop: "1px solid var(--border-subtle)" }}
             >
-              {(item.prob * 100).toFixed(0)}%
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Balance Bar (Razão vs Emoção) */}
-      <div className="mb-3">
-        <div className="flex justify-between text-[0.65rem] font-semibold mb-1">
-          <span style={{ color: "var(--accent-blue)" }}>
-            RAZÃO {fusion.reason_score.toFixed(0)}%
-          </span>
-          <span style={{ color: "var(--accent-rose)" }}>
-            {fusion.emotion_score.toFixed(0)}% EMOÇÃO
-          </span>
-        </div>
-        <div className="flex h-[5px] rounded-full overflow-hidden" style={{ background: "var(--bg-elevated)" }}>
-          <div
-            className="h-full transition-all duration-700"
-            style={{
-              width: `${fusion.reason_score}%`,
-              background: "var(--gradient-reason)",
-            }}
-          />
-          <div
-            className="h-full transition-all duration-700"
-            style={{
-              width: `${fusion.emotion_score}%`,
-              background: "var(--gradient-emotion)",
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Suggested Column */}
-      {suggestion && (
-        <div
-          className="flex items-center justify-between pt-3"
-          style={{ borderTop: "1px solid var(--border-subtle)" }}
-        >
-          <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
-            Sugestão
-          </span>
-          <div className="flex gap-1">
-            {suggestion.columns.map((col) => (
-              <span
-                key={col}
-                className="px-3 py-1 rounded-md text-xs font-bold"
-                style={{
-                  background:
-                    col === fusion.suggested_column
-                      ? "rgba(16, 185, 129, 0.2)"
-                      : "var(--bg-elevated)",
-                  color:
-                    col === fusion.suggested_column
-                      ? "var(--accent-emerald)"
-                      : "var(--text-secondary)",
-                  border: `1px solid ${col === fusion.suggested_column ? "rgba(16, 185, 129, 0.3)" : "var(--border-subtle)"}`,
-                }}
-              >
-                {col}
+              <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
+                Sugestão
               </span>
-            ))}
-          </div>
-        </div>
-      )}
+              <div className="flex gap-1">
+                {suggestion.columns.map((col) => (
+                  <span
+                    key={col}
+                    className="px-3 py-1 rounded-md text-xs font-bold"
+                    style={{
+                      background:
+                        col === fusion.suggested_column
+                          ? "rgba(16, 185, 129, 0.2)"
+                          : "var(--bg-elevated)",
+                      color:
+                        col === fusion.suggested_column
+                          ? "var(--accent-emerald)"
+                          : "var(--text-secondary)",
+                      border: `1px solid ${col === fusion.suggested_column ? "rgba(16, 185, 129, 0.3)" : "var(--border-subtle)"}`,
+                    }}
+                  >
+                    {col}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
-      {/* Clutch Factor (subtle) */}
-      {fusion.clutch_factor > 0.6 && (
-        <div className="mt-2 text-[0.65rem] text-right" style={{ color: "var(--accent-violet)" }}>
-          ⚡ Clutch Factor: {(fusion.clutch_factor * 100).toFixed(0)}%
-        </div>
+          {/* Clutch Factor (subtle) */}
+          {fusion.clutch_factor > 0.6 && (
+            <div className="mt-2 text-[0.65rem] text-right" style={{ color: "var(--accent-violet)" }}>
+              ⚡ Fator Decisão: {(fusion.clutch_factor * 100).toFixed(0)}%
+            </div>
+          )}
+        </>
       )}
     </div>
   );
