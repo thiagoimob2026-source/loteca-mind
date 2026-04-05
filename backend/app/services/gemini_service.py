@@ -5,6 +5,8 @@ Gera narrativas premium baseadas nos dados dos agentes Alpha e Psi.
 
 import os
 import json
+import asyncio
+import time
 from typing import Optional, List, Dict
 from google import genai
 from app.models.match import MatchData

@@ -238,47 +238,56 @@ async def scout_match(id: int, home_name: str, away_name: str, round_num: int) -
     """
     print(f"[LotecaScout] Analisando: {home_name} vs {away_name}")
     
-    # 1. Autodescoberta
-    h_id_task = search_team(home_name)
-    a_id_task = search_team(away_name)
-    h_id, a_id = await asyncio.gather(h_id_task, a_id_task)
-    
-    if not h_id or not a_id:
-        # Fallback para dados genéricos se não achar o ID
-        print(f"  ⚠️ IDs não encontrados para {home_name}/{away_name}. Usando fallback.")
+    try:
+        # 1. Autodescoberta
+        h_id_task = search_team(home_name)
+        a_id_task = search_team(away_name)
+        h_id, a_id = await asyncio.gather(h_id_task, a_id_task)
+        
+        if not h_id or not a_id:
+            raise ValueError("ID não encontrado")
+
+        # 2. Coleta de estatísticas reais
+        h_scout_task = get_team_scout(h_id)
+        a_scout_task = get_team_scout(a_id)
+        h2h_task = get_h2h_real(h_id, a_id)
+        
+        h_scout, a_scout, h2h = await asyncio.gather(h_scout_task, a_scout_task, h2h_task)
+        
+        # 3. Construção do modelo
+        home_team = _build_scout_team({"name": home_name, "id": h_id}, h_scout)
+        away_team = _build_scout_team({"name": away_name, "id": a_id}, a_scout)
+        
         return MatchData(
-            id=id, round_number=round_num, competition="Loteca (Verificação Manual)",
-            home_team=TeamData(name=home_name), away_team=TeamData(name=away_name),
-            home_context=ContextData(), away_context=ContextData(),
-            venue="Estádio Nacional", kickoff_time=f"2026-04-06T16:00:00-03:00",
+            id=id,
+            round_number=round_num,
+            competition="Dados Verificados API-Sports",
+            home_team=home_team,
+            away_team=away_team,
+            home_context=_build_context(h_scout["form"]),
+            away_context=_build_context(a_scout["form"]),
+            venue="Estádio Identificado",
+            kickoff_time=datetime.now().isoformat(),
+            head_to_head=h2h,
+            is_verified=True
+        )
+    except Exception as e:
+        # FALLBACK RESILIENTE: Se a API falhar (Limite atingido ou ID não encontrado)
+        # Não trava o sistema, retorna um "Draft" para a IA analisar com RAG
+        print(f"  ⚠️ Scout Real falhou para {home_name}/{away_name}: {e}. Usando Draft Resiliente.")
+        return MatchData(
+            id=id,
+            round_number=round_num,
+            competition="Análise Baseada em IA (News RAG)",
+            home_team=TeamData(name=home_name),
+            away_team=TeamData(name=away_name),
+            home_context=ContextData(momentum="stable"),
+            away_context=ContextData(momentum="stable"),
+            venue="Estádio Nacional",
+            kickoff_time=datetime.now().isoformat(),
             head_to_head={"home_wins": 5, "draws": 3, "away_wins": 3},
             is_verified=False
         )
-
-    # 2. Coleta de estatísticas reais
-    h_scout_task = get_team_scout(h_id)
-    a_scout_task = get_team_scout(a_id)
-    h2h_task = get_head_to_head(h_id, a_id)
-    
-    h_scout, a_scout, h2h = await asyncio.gather(h_scout_task, a_scout_task, h2h_task)
-    
-    # 3. Construção do modelo
-    home_team = _build_scout_team({"name": home_name, "id": h_id}, h_scout)
-    away_team = _build_scout_team({"name": away_name, "id": a_id}, a_scout)
-    
-    return MatchData(
-        id=id,
-        round_number=round_num,
-        competition="Dados Verificados API-Sports",
-        home_team=home_team,
-        away_team=away_team,
-        home_context=_build_context(h_scout["form"]),
-        away_context=_build_context(a_scout["form"]),
-        venue="Estádio Identificado",
-        kickoff_time=datetime.now().isoformat(),
-        head_to_head=h2h,
-        is_verified=True
-    )
 
 def _build_context(form: list[str]) -> ContextData:
     losses = form.count("L")

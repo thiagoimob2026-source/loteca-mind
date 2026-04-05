@@ -64,12 +64,28 @@ async def get_current_matches() -> list[MatchData]:
         print("[DataService] Using default MOCK_MATCHDAY grid.")
         manual_grid = MOCK_MATCHDAY
 
-    # Parallel Scouting of all 14 matches
-    tasks = []
-    for i, (home, away) in enumerate(manual_grid):
-        tasks.append(football_api.scout_match(i + 1, home, away, concurso_round))
+    # Semáforo para controlar o fluxo de saída e evitar crashes de rede
+    semaphore = asyncio.Semaphore(5)
+
+    async def get_single_match_scout(idx, home, away, round_num):
+        async with semaphore:
+            # 1. Tentar ler do Cache do Banco Primeiro
+            cached_data = await get_scout_cache(home, away, round_num)
+            if cached_data:
+                return MatchData(**cached_data)
+            
+            # 2. Se não houver, chama a API Real
+            match_scout = await football_api.scout_match(idx, home, away, round_num)
+            
+            # 3. Se a API retornou dados reais, salva no cache para não gastar mais
+            if match_scout.is_verified:
+                await save_scout_cache(home, away, round_num, match_scout.model_dump())
+            
+            return match_scout
+
+    print(f"[DataService] Iniciando Scout Paralelo (Batch de 5) de 14 jogos... 🕵️‍♂️")
     
-    print(f"[DataService] Iniciando Scout de 14 jogos a partir da API... 🕵️‍♂️")
+    tasks = [get_single_match_scout(i + 1, home, away, concurso_round) for i, (home, away) in enumerate(manual_grid)]
     matches = await asyncio.gather(*tasks)
     
     # Check coverage

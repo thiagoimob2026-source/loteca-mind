@@ -125,3 +125,34 @@ async def check_vip_status(email: str) -> bool:
         print(f"[Supabase VIP] Erro ao checar VIP: {e}")
         # Se falhar ou tabela não existir, por segurança não loga
         return False
+
+async def get_scout_cache(home_team: str, away_team: str, round_number: int) -> Optional[Dict]:
+    """Recupera dados de scout salvos para evitar gastos de API."""
+    if not supabase: return None
+    try:
+        response = supabase.table("scout_cache")\
+            .select("scout_data")\
+            .eq("home_team", home_team)\
+            .eq("away_team", away_team)\
+            .eq("round_number", round_number)\
+            .limit(1).execute()
+        if response.data:
+            return response.data[0]["scout_data"]
+    except Exception as e:
+        print(f"[Supabase Cache] Erro ao ler cache: {e}")
+    return None
+
+async def save_scout_cache(home_team: str, away_team: str, round_number: int, scout_data: Dict):
+    """Salva dados de scout no banco para uso futuro na mesma rodada."""
+    if not supabase: return
+    try:
+        data = {
+            "home_team": home_team,
+            "away_team": away_team,
+            "round_number": round_number,
+            "scout_data": scout_data
+        }
+        # Upsert para atualizar se já existir
+        supabase.table("scout_cache").upsert(data, on_conflict="home_team,away_team,round_number").execute()
+    except Exception as e:
+        print(f"[Supabase Cache] Erro ao salvar cache: {e}")
