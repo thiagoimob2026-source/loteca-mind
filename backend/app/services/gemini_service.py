@@ -101,16 +101,21 @@ async def generate_match_analysis(
     else:
         context_prompt += f"\n\nNOTÍCIAS DA INTERNET:\nNenhuma informação recente encontrada.\n"
 
-    # Modelos estáveis (1.5-flash é o mais rápido e gratuito)
-    models_to_try = ["gemini-1.5-flash", "gemini-1.5-pro"]
+    # Modelos de última geração (Gemini 2.0 é o mais avançado para RAG)
+    models_to_try = [
+        "gemini-2.0-flash", 
+        "gemini-2.0-flash-exp",
+        "gemini-1.5-flash", 
+        "gemini-1.5-pro"
+    ]
     
     for model_name in models_to_try:
-        max_retries = 2
-        retry_delay = 5
+        max_retries = 3
+        retry_delay = 8
 
         for attempt in range(max_retries):
             try:
-                print(f"[GeminiService] Analisando {match.home_team.name} com {model_name}...")
+                print(f"[GeminiService] Analisando {match.home_team.name} com {model_name} (RAG ON)...")
                 response = client.models.generate_content(
                     model=model_name,
                     contents=context_prompt,
