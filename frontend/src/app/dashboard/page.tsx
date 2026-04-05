@@ -26,11 +26,30 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const handleRunAnalysis = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // Dispara a análise REAL (POST) que roda o Scout/Gemini
+      const data = await api.predictions.analyze();
+      setPrediction(data);
+      if (data && data.round_number) {
+        setAdminRound(data.round_number);
+      }
+      alert("✅ Análise gerada com sucesso! Os dados reais da API e IA foram carregados.");
+    } catch (err) {
+      setError("Erro ao gerar análise. O servidor pode estar sobrecarregado ou atingiu o limite da API.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const loadPrediction = async (retryCount = 0) => {
     setLoading(true);
     setError(null);
     try {
-      // Tenta obter a última análise em cache antes de rodar uma nova
+      // Apenas lê a última análise disponível (cache/DB)
       const data = await api.predictions.latest();
       setPrediction(data);
       if (data && data.round_number) {
@@ -38,11 +57,10 @@ export default function HomePage() {
       }
     } catch (err) {
       if (retryCount < 2) {
-        // Render pode estar acordando — avisa e tenta de novo em 15s
         setError(`⏳ Servidor acordando... aguarde (tentativa ${retryCount + 1}/3)`);
         setTimeout(() => loadPrediction(retryCount + 1), 15000);
       } else {
-        setError("Não foi possível conectar ao engine. Tente clicar em 'Recriar Análise' manualmente.");
+        setError("Não foi possível conectar ao engine.");
         console.error(err);
         setLoading(false);
       }
@@ -190,7 +208,7 @@ export default function HomePage() {
             <br />
             <button
               id="generate-analysis-btn"
-              onClick={() => loadPrediction()}
+              onClick={() => handleRunAnalysis()}
               disabled={loading}
               className="btn-primary"
               style={{ opacity: loading ? 0.6 : 1, minWidth: "240px", background: "var(--accent-amber)", color: "#1a1a1a" }}

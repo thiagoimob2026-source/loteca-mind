@@ -73,10 +73,14 @@ async def analyze_round(target_budget: float = 49.90, use_ai: bool = True):
     # 6. Optimize ticket
     strategy = optimize(fusions, target_budget=target_budget)
 
+    # Pegar o round_number real do concurso.json
+    from app.services.data_service import get_current_round
+    concurso_round = await get_current_round()
+
     # Build complete prediction
     prediction = LotecaPrediction(
-        round_number=10,
-        competition="Loteca",
+        round_number=concurso_round,
+        competition="Loteca" if concurso_round != 10 else "Loteca (Mock)",
         fusions=fusions,
         strategy=strategy,
         generated_at=datetime.now(timezone.utc).isoformat(),
@@ -111,10 +115,17 @@ async def get_latest_prediction():
 
 @router.get("/{match_id}")
 async def get_match_prediction(match_id: int):
-    """Get the prediction for a specific match."""
+    """Get the prediction for a specific match from local cache or Supabase."""
     global _latest_prediction
+    
+    # Se não está em cache, busca o último do banco
     if _latest_prediction is None:
-        await analyze_round()
+        db_prediction = await supabase_service.get_latest_analysis()
+        if db_prediction:
+            _latest_prediction = db_prediction
+        else:
+            # Se não há nada mesmo, retorna erro. Não dispara analyze_round aqui para evitar timeouts.
+            return {"error": "Nenhuma análise encontrada. Por favor, gere uma nova análise no Dashboard."}, 404
 
     for fusion in _latest_prediction.get("fusions", []):
         if fusion["match_id"] == match_id:
